@@ -1,4 +1,4 @@
-ackage dk.au.mad22spring.AppProject.Group13;
+package dk.au.mad22spring.AppProject.Group13;
 
 import androidx.appcompat.app.AppCompatActivity;
 
