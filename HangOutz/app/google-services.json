@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "257020057756",
+    "firebase_url": "https://mad22prj-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mad22prj",
+    "storage_bucket": "mad22prj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257020057756:android:273e3d05d830e68469f559",
+        "android_client_info": {
+          "package_name": "dk.au.mad22spring.AppProject.Group13"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257020057756-3mmepbap98de0qhosa895gupf3dlp1o2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrLi-6lsHTRVYpjxFSCe7U-URWttnmsDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257020057756-3mmepbap98de0qhosa895gupf3dlp1o2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
