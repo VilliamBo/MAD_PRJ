@@ -57,15 +57,15 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
-        String email = regEmail.getText().toString();
-        String userName = regUsername.getText().toString();
-        String password = regPassword.getText().toString();
-        String confirmPassword = regConfirmPassword.getText().toString();
+        String email = regEmail.getText().toString().trim();
+        String userName = regUsername.getText().toString().trim();
+        String password = regPassword.getText().toString().trim();
+        String confirmPassword = regConfirmPassword.getText().toString().trim();
 
-        if(TextUtils.isEmpty(email)){
+        if(TextUtils.isEmpty(userName)){
             regEmail.setError("Email cannot be empty");
             regEmail.requestFocus();
-        }else if(TextUtils.isEmpty(userName)){
+        }else if(TextUtils.isEmpty(email)){
             regUsername.setError("Username cannot be empty");
             regUsername.requestFocus();
         }else if(TextUtils.isEmpty(password)){
@@ -82,8 +82,9 @@ public class RegisterUserActivity extends AppCompatActivity {
                         Toast.makeText(RegisterUserActivity.this, "New user registered successfully", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterUserActivity.this, LoginActivity.class);
                         startActivity(intent);
+                        finish();
                     }else{
-                        Toast.makeText(RegisterUserActivity.this, "Registration error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterUserActivity.this, "Registration error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             });
