@@ -27,13 +27,15 @@ public class LoginActivity extends AppCompatActivity {
     //this should be deleted
     private Button goToHangBtn;
 
-    public LoginActivity() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if(mAuth == null){
+            mAuth = FirebaseAuth.getInstance();
+        }
 
         setupWidgets();
     }
@@ -61,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, HangOutzActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -73,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        String email = userNameTxt.getText().toString();
-        String password = passwordTxt.getText().toString();
+        String email = userNameTxt.getText().toString().trim(); //trim removes whitespaces in both ends
+        String password = passwordTxt.getText().toString().trim();
 
         // fail first -> checking if input fields is filled
         if(TextUtils.isEmpty(email)){
@@ -91,10 +94,9 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         Toast.makeText(LoginActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        goToMainActivity();
                     }else{
-                        Toast.makeText(LoginActivity.this, "Login error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Login error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         userNameTxt.setText("");
                         passwordTxt.setText("");
                     }
