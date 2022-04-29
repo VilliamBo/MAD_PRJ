@@ -1,5 +1,7 @@
 package dk.au.mad22spring.AppProject.Group13.model;
 
+import java.util.List;
+
 public class Repository {
 
     private static Repository instance;
@@ -22,6 +24,14 @@ public class Repository {
             database.addUser(user);
         }
     }
+    public void setLocation(String userId, String location1, String location2){
+        database.setLocation(userId, location1, location2);
+    }
+
+    public void addFriend(String localUserID, String friendUserID){
+        database.addFirend(localUserID, friendUserID);
+    }
+
 
     public void deleteUser(String userId){
 

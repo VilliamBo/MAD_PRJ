@@ -5,9 +5,12 @@ import java.util.List;
 public class User {
     public String id;
     public String name;
-    public List<String> friends;
-    public List<String> location;
-
-    public User(){
+    public String location1;
+    public String location2;
+    public User(String Id, String Name){
+        id = Id;
+        name = Name;
+        location1 = "unknown";
+        location2 = "unknown";
     }
 }
