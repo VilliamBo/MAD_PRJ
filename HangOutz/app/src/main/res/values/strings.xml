@@ -10,5 +10,15 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="loginBtn">Login</string>
-    <string name="newUserBtn">New User</string>
+    <string name="regUserBtn">Register User</string>
+    <string name="logOutBtn">Log Out</string>
+    <string name="eMailTxtHint">E-mail</string>
+    <string name="passwordHint">password</string>
+    <string name="cancelBtn">Cancel</string>
+    <string name="registerUserBtn">Register User</string>
+    <string name="regUserTxtView">Register User</string>
+    <string name="regUserNameTxt">UserName</string>
+    <string name="regEmailTxt">Email</string>
+    <string name="regPasswordTxt">Password</string>
+    <string name="regConPasswordTxt">Confirm password</string>
 </resources>
