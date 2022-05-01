@@ -7,6 +7,7 @@ package dk.au.mad22spring.AppProject.Group13;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,8 +33,7 @@ public class HangOutzActivity extends AppCompatActivity {
     private static final String TAG = "TAG";
 
     //ui widgets
-    public Button btnAddFriend;
-    public Button btnWrite;
+    public Button btnAddFriend, btnWrite, btnGoToAddFriend;
     public TextView txtCount;
     public EditText edtAddFriendUserID;
     private int counter = 0;
@@ -80,11 +80,18 @@ public class HangOutzActivity extends AppCompatActivity {
         btnWrite = findViewById(R.id.btnWrite);
         btnWrite.setOnClickListener(view -> {
             counter++;
-            ArrayList<String> location = new ArrayList<>();
             localUser.location1=""+(38+counter*2);
             localUser.location2=""+counter;
             repo.setLocation(localUser.id, localUser.location1, localUser.location2);
         });
 
+        btnGoToAddFriend = findViewById(R.id.btnGoToAddFriend);
+        btnGoToAddFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HangOutzActivity.this, FriendsListActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

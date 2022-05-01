@@ -22,4 +22,6 @@
     <string name="regPasswordTxt">Password</string>
     <string name="regConPasswordTxt">Confirm password</string>
     <string name="notUserTxt">Not user yet?</string>
+    <string name="btnBack">Back</string>
+    <string name="btnAddFriend">Add Friend</string>
 </resources>

@@ -12,11 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HangOutz">
         <activity
+            android:name=".FriendsListActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterUserActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".HangOutzActivity"
             android:exported="false" />

@@ -3,6 +3,7 @@ package dk.au.mad22spring.AppProject.Group13.model;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -10,19 +11,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FirebaseDB {
     private static final String TAG = "FireBaseDB TAG";
+
     public FirebaseDatabase database;
     private DatabaseReference userCloudEndPoint;
     private DatabaseReference friendsCloudEndPoint;
+
+    private MutableLiveData<ArrayList<User>> friends;
 
     public FirebaseDB(){
         database = FirebaseDatabase.getInstance();
         userCloudEndPoint = database.getReference("Users");
         friendsCloudEndPoint = database.getReference("Friends");
+
+        friends = new MutableLiveData<>();
     }
 
     public void addUser(User user){
@@ -38,7 +46,7 @@ public class FirebaseDB {
         userCloudEndPoint.child(userId).child("location1").setValue(location2);
     }
 
-    public void addFirend(String localUserID, String friendUserID) {
+    public void addFriend(String localUserID, String friendUserID) {
         userCloudEndPoint.orderByChild("id").equalTo(friendUserID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -59,6 +67,40 @@ public class FirebaseDB {
 
             }
         });
+    }
+
+    public MutableLiveData<ArrayList<User>> getFriends(String localUserID){
+        friendsCloudEndPoint.child(localUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Object val = snapshot.getValue();
+                ArrayList<User> list = new ArrayList<>();
+                //If friendsList is empty, the snapshot will return as the local user ID
+                if(!val.equals(localUserID)) {
+                    //If the typ  is arrayList, there is only one friend in the list and with the ID = 0.
+                    String valType = val.getClass().getSimpleName();
+                    if(val.getClass().getSimpleName().equals("ArrayList")){
+                        list.add(new User("One", "User One"));
+                        friends.setValue(list);
+                    }
+                    //Else it will return as a HashMap of key = friend id.
+                    else {
+                        HashMap<String, Boolean> map = ((HashMap<String, Boolean>) val);
+                        for (String key : map.keySet()) {
+                            list.add(new User(key, "User" + key));
+                        }
+                        friends.setValue(list);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return friends;
     }
 
 }

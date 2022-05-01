@@ -1,6 +1,8 @@
 package dk.au.mad22spring.AppProject.Group13.model;
 
-import java.util.List;
+import androidx.lifecycle.MutableLiveData;
+
+import java.util.ArrayList;
 
 public class Repository {
 
@@ -29,11 +31,15 @@ public class Repository {
     }
 
     public void addFriend(String localUserID, String friendUserID){
-        database.addFirend(localUserID, friendUserID);
+        database.addFriend(localUserID, friendUserID);
     }
 
 
     public void deleteUser(String userId){
 
+    }
+
+    public MutableLiveData<ArrayList<User>> getAllFriends(String userId) {
+        return database.getFriends(userId);
     }
 }
