@@ -10,22 +10,21 @@ import com.google.firebase.auth.FirebaseUser;
 
 import dk.au.mad22spring.AppProject.Group13.model.AuthenticationRepository;
 
-
-public class loginViewModel extends AndroidViewModel {
+public class registerUserViewModel extends AndroidViewModel {
 
     private AuthenticationRepository repository;
     private MutableLiveData<FirebaseUser> userLiveData;
 
     //constructor
-    public loginViewModel(@NonNull Application application) {
+    public registerUserViewModel(@NonNull Application application) {
         super(application);
 
         repository = new AuthenticationRepository(application);
         userLiveData = repository.getUserLiveData();
     }
 
-    public void login(String email, String password){
-        repository.login(email, password);
+    public void register(String email, String password){
+        repository.register(email, password);
     }
 
     //get method

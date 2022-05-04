@@ -2,12 +2,15 @@ package dk.au.mad22spring.AppProject.Group13;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,39 +18,52 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import dk.au.mad22spring.AppProject.Group13.viewmodel.loginViewModel;
+import dk.au.mad22spring.AppProject.Group13.viewmodel.registerUserViewModel;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
-    private TextView regEmail, regUsername, regPassword, regConfirmPassword;
-    private Button cancelBtn, registerBtn;
+    private registerUserViewModel viewModel;
 
-    FirebaseAuth mAuth;
+    private EditText regEmail, regUsername, regPassword, regConfirmPassword;
+    private Button cancelBtn, registerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
 
-        if(mAuth == null){
-            mAuth = FirebaseAuth.getInstance();
-        }
+        viewModel = new ViewModelProvider(this).get(registerUserViewModel.class);
+        viewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
+            @Override
+            public void onChanged(FirebaseUser firebaseUser) {
+                if(firebaseUser != null){
+                    Toast.makeText(RegisterUserActivity.this, "User is already logged in", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });
+
         setupUI();
     }
 
     private void setupUI() {
-        regEmail = findViewById(R.id.regEmailTxt);
-        regUsername = findViewById(R.id.regUserNameTxt);
-        regPassword = findViewById(R.id.regPasswordTxt);
-        regConfirmPassword = findViewById(R.id.regConPasswordTxt);
+        regUsername = findViewById(R.id.registerNameTxt);
+        regEmail = findViewById(R.id.registerEMailTxt);
+        regPassword = findViewById(R.id.registerPasswordTxt);
+        regConfirmPassword = findViewById(R.id.registerConfirmPassword);
 
-        cancelBtn = findViewById(R.id.regCancelBtn);
+        cancelBtn = findViewById(R.id.cancelRegistrationBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(RegisterUserActivity.this, "Registration canceled", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
-        registerBtn = findViewById(R.id.regUserBtn);
+        registerBtn = findViewById(R.id.registerUserBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,7 +73,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
-        String email = regEmail.getText().toString().trim();
+        String email = regEmail.getText().toString().trim(); // trim() removes whitespaces
         String userName = regUsername.getText().toString().trim();
         String password = regPassword.getText().toString().trim();
         String confirmPassword = regConfirmPassword.getText().toString().trim();
@@ -75,20 +91,7 @@ public class RegisterUserActivity extends AppCompatActivity {
             regConfirmPassword.setError("Passwords are not identical");
             regConfirmPassword.requestFocus();
         }else{
-            mAuth.createUserWithEmailAndPassword(email.toLowerCase(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(RegisterUserActivity.this, "New user registered successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterUserActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else{
-                        Toast.makeText(RegisterUserActivity.this, "Registration error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            viewModel.register(email, password);
         }
-
         }
     }
