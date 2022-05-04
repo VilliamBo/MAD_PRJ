@@ -1,7 +1,9 @@
 package dk.au.mad22spring.AppProject.Group13;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,61 +11,51 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-import java.lang.invoke.ConstantCallSite;
+import dk.au.mad22spring.AppProject.Group13.viewmodel.loginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private Button loginBtn, createUserBtn;
+    private loginViewModel viewModel;
+
+    //UI widgets
+    private Button loginBtn, registerNewBtn;
     private TextView userNameTxt, passwordTxt;
-
-    //this should be deleted
-    private Button goToHangBtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(mAuth == null){
-            mAuth = FirebaseAuth.getInstance();
-        }
+        viewModel = new ViewModelProvider(this).get(loginViewModel.class);
+        viewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
+            @Override
+            public void onChanged(FirebaseUser firebaseUser) {
+                if(firebaseUser != null){
+                    Intent intent = new Intent(getApplication(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
 
-        setupWidgets();
+        setupUI();
     }
 
-    private void setupWidgets() {
+    private void setupUI() {
 
-        userNameTxt = findViewById(R.id.eMailTxt);
-        passwordTxt = findViewById(R.id.passwordTxt);
+        userNameTxt = findViewById(R.id.loginEmailInput);
+        passwordTxt = findViewById(R.id.loginPassInput);
 
-        loginBtn = findViewById(R.id.loginBtn);
-        createUserBtn = findViewById(R.id.createUserBtn);
-        createUserBtn.setOnClickListener(new View.OnClickListener() {
+        loginBtn = findViewById(R.id.loginButton);
+        registerNewBtn = findViewById(R.id.loginCreateUserBtn);
+        registerNewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, RegisterUserActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        goToHangBtn = findViewById(R.id.goToHangOutzBtn);
-
-        // this is only for working on project
-        goToHangBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, HangOutzActivity.class);
-                startActivity(intent);
-                finish();
             }
         });
 
@@ -88,26 +80,11 @@ public class LoginActivity extends AppCompatActivity {
             passwordTxt.setError("Password cannot be empty");
             passwordTxt.requestFocus();
         }
-        else{ // inputs OK - check with fireBase Authentication
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(LoginActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                        goToMainActivity();
-                    }else{
-                        Toast.makeText(LoginActivity.this, "Login error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        userNameTxt.setText("");
-                        passwordTxt.setText("");
-                    }
-                }
-            });
+        else{ // inputs OK - call ViewModel function
+            viewModel.login(email, password);
+            // erase input lines if user not recognized
+            //userNameTxt.setText("");
+            //passwordTxt.setText("");
         }
-    }
-
-    private void goToMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent); // start new activity -> MainActivity
-        finish(); // destroy login screen when logged in
     }
 }
