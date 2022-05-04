@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     //UI widgets
     private Button logOutBtn, fetchButton;
+
+    private Button goToHangOutzBtn; // for developing
+
     private TextView loggedInUserText;
     private ImageView BBCharImg;
 
@@ -104,6 +107,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 viewModel.logOut();
+            }
+        });
+
+        goToHangOutzBtn = findViewById(R.id.goToHOBtn);
+        goToHangOutzBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, HangOutzActivity.class);
+                startActivity(intent);
             }
         });
     }
