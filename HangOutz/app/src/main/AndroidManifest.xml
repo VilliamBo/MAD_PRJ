@@ -15,6 +15,9 @@
             android:name=".FriendsListActivity"
             android:exported="false" />
         <activity
+            android:name=".FriendsAddActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterUserActivity"
             android:exported="false" />
         <activity

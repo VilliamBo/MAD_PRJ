@@ -1,6 +1,9 @@
 package dk.au.mad22spring.AppProject.Group13.model;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -11,24 +14,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class FirebaseDB {
     private static final String TAG = "FireBaseDB TAG";
 
-    public FirebaseDatabase database;
+    public FirebaseDatabase db;
     private DatabaseReference userCloudEndPoint;
     private DatabaseReference friendsCloudEndPoint;
 
     private MutableLiveData<ArrayList<User>> friends;
 
     public FirebaseDB(){
-        database = FirebaseDatabase.getInstance();
-        userCloudEndPoint = database.getReference("Users");
-        friendsCloudEndPoint = database.getReference("Friends");
+        db = FirebaseDatabase.getInstance();
+        userCloudEndPoint = db.getReference("Users");
+        friendsCloudEndPoint = db.getReference("Friends");
 
         friends = new MutableLiveData<>();
     }
@@ -53,7 +54,8 @@ public class FirebaseDB {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     //Add Friend
-                    friendsCloudEndPoint.child(localUserID).child(friendUserID).setValue(true);
+                    friendsCloudEndPoint.child(localUserID).child(friendUserID).setValue("");
+                    //friendsCloudEndPoint.child(localUserID).child(friendUserID);
                     Log.d(TAG, "addFirend: User " + friendUserID + " added to User " + localUserID + "friendsList" );
                 }
                 else {
@@ -69,27 +71,86 @@ public class FirebaseDB {
         });
     }
 
-    public MutableLiveData<ArrayList<User>> getFriends(String localUserID){
+    public void getUsersFromId(Context context, MutableLiveData<ArrayList<User>> userList, ArrayList<String> userIdList){
+        userCloudEndPoint.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<User> newFriendList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    for(String id: userIdList){
+                        if(user.id.equals(id)) {
+                            newFriendList.add(user);
+                        }
+                    }
+                    userList.setValue(newFriendList);
+                }
+                if(userIdList.size()==0) {
+                    Toast toast = Toast.makeText(context, "You have no friends :(", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0,0);
+                    toast.show();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error){}
+        });
+    }
+
+
+    public void getFriendsId(String localUserID, MutableLiveData<ArrayList<String>> friendsIdList){
         friendsCloudEndPoint.child(localUserID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Object val = snapshot.getValue();
-                ArrayList<User> list = new ArrayList<>();
-                //If friendsList is empty, the snapshot will return as the local user ID
-                if(!val.equals(localUserID)) {
-                    //If the typ  is arrayList, there is only one friend in the list and with the ID = 0.
-                    String valType = val.getClass().getSimpleName();
-                    if(val.getClass().getSimpleName().equals("ArrayList")){
-                        list.add(new User("One", "User One"));
-                        friends.setValue(list);
-                    }
-                    //Else it will return as a HashMap of key = friend id.
-                    else {
-                        HashMap<String, Boolean> map = ((HashMap<String, Boolean>) val);
-                        for (String key : map.keySet()) {
-                            list.add(new User(key, "User" + key));
-                        }
-                        friends.setValue(list);
+                ArrayList<String> newFriendsIdList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String key = dataSnapshot.getKey();
+                    newFriendsIdList.add(key);
+                }
+                friendsIdList.setValue(newFriendsIdList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //return friends;
+    }
+
+    //MutableLiveData<ArrayList<User>> friendList
+    public void getFriends(String localUserID, MutableLiveData<ArrayList<User>> friendsList){
+        friendsCloudEndPoint.child(localUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<User> newFriendsList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    String key = dataSnapshot.getKey();
+                    newFriendsList.add(new User(key, "User" + key));
+                }
+                friendsList.setValue(newFriendsList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //return friends;
+    }
+
+    public void linkToUserDatabase(MutableLiveData<ArrayList<User>> userList, MutableLiveData<String> searchFilter){
+        userCloudEndPoint.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<User> myList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if(searchFilter.getValue().equals("") || user.id.contains(searchFilter.getValue())){
+                        myList.add(user);
+                       userList.setValue(myList);
                     }
                 }
             }
@@ -99,48 +160,55 @@ public class FirebaseDB {
 
             }
         });
-
-        return friends;
     }
 
+    /*public void linkToFriendDatabase(MutableLiveData<ArrayList<User>> friendList, MutableLiveData<String> searchFilter){
+        friendsCloudEndPoint.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<User> myList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if(searchFilter.getValue().equals("") || user.id.contains(searchFilter.getValue())){
+                        myList.add(user);
+                        userList.setValue(myList);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+     */
+
+
+    public void searchUsers(Context context, MutableLiveData<ArrayList<User>> userList, String searchStr){
+            userCloudEndPoint.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    ArrayList<User> myList = new ArrayList<>();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        User user = dataSnapshot.getValue(User.class);
+                        if(user.id.contains(searchStr)) {
+                            myList.add(user);
+                        }
+                        userList.setValue(myList);
+                    }
+                    if(myList.size()==0) {
+                        Toast toast = Toast.makeText(context, "No Users Found", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0,0);
+                        toast.show();
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error){}
+            });
+    }
 }
 
-    /*
-    public void getUser(String userId){
-        if(userId != null){
-            userCloudEndPoint.child().setValue();
-        }
-    }
 
-    public void delete(String userId){
-        if(userId != null){
-            userCloudEndPoint.child().setValue();
-        }
-    }
-
-    myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                //String value = dataSnapshot.getValue(String.class);
-                //Log.d(TAG, "Value is: " + value);
-                //txtCount.setText("Count: "+value);
-                //counter=Integer.valueOf(value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-         userCloudEndPoint.setValue("Hello user").addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, e.getLocalizedMessage());
-            }
-        });
-     */
 

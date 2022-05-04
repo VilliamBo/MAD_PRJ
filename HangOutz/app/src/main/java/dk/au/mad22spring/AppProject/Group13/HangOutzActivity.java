@@ -4,26 +4,14 @@ Firebase Realtime Database By Example with Android: https://medium.com/@valokafo
 */
 package dk.au.mad22spring.AppProject.Group13;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import dk.au.mad22spring.AppProject.Group13.model.Repository;
 import dk.au.mad22spring.AppProject.Group13.model.User;
@@ -33,7 +21,7 @@ public class HangOutzActivity extends AppCompatActivity {
     private static final String TAG = "TAG";
 
     //ui widgets
-    public Button btnAddFriend, btnWrite, btnGoToAddFriend;
+    public Button btnAddFriend, btnWrite, btnGoToAddFriend, btnFriendList;
     public TextView txtCount;
     public EditText edtAddFriendUserID;
     private int counter = 0;
@@ -89,9 +77,15 @@ public class HangOutzActivity extends AppCompatActivity {
         btnGoToAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HangOutzActivity.this, FriendsListActivity.class);
+                Intent i = new Intent(HangOutzActivity.this, FriendsAddActivity.class);
                 startActivity(i);
             }
+        });
+
+        btnFriendList = findViewById(R.id.btnFriendList);
+        btnFriendList.setOnClickListener(view -> {
+            Intent i = new Intent(HangOutzActivity.this, FriendsListActivity.class);
+            startActivity(i);
         });
     }
 }

@@ -4,11 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import dk.au.mad22spring.AppProject.Group13.model.Repository;
 import dk.au.mad22spring.AppProject.Group13.model.User;
@@ -17,7 +15,14 @@ public class FriendsListViewModel extends AndroidViewModel {
 
     private static final String TAG = "FriendListViewModel";
 
-    //private MutableLiveData<List<USer>> drinks;
+    private MutableLiveData<ArrayList<User>> friendList;
+    private MutableLiveData<String> searchFilter;
+
+    //################### TEST VARIABLE ##################################
+    private String localUserId = "1234";
+    private MutableLiveData<ArrayList<String>> friendIdList;
+    //####################################################################
+
 
     //Repository to communicate with USER Firebase database
     private Repository repository;
@@ -25,8 +30,45 @@ public class FriendsListViewModel extends AndroidViewModel {
     public FriendsListViewModel(@NonNull Application application) {
         super(application);
         repository = Repository.getInstance();
-        // defaultDrinks = new ArrayList<Drink__1>();
+
+        if (searchFilter == null){
+            searchFilter = new MutableLiveData<String>();
+            searchFilter.setValue("");
+        }
+        //repository.getAllFriends(localUserId, getFriendList());
+        linkFriendIdListToDatabase();
+
+
     }
 
-    public MutableLiveData<ArrayList<User>> getFriends(String localUserId){ return repository.getAllFriends(localUserId); }
+    public void updateFriendList() {
+        repository.getUsersFromId(getApplication().getApplicationContext(), getFriendList(), getFriendIdList().getValue());
+    }
+
+    public MutableLiveData<ArrayList<User>> getFriendList(){
+        if(friendList == null) {
+            friendList = new MutableLiveData<ArrayList<User>>();
+            friendList.setValue(new ArrayList<>());
+        }
+        return friendList;
+    }
+
+    public MutableLiveData<ArrayList<String>> getFriendIdList(){
+        if(friendIdList == null) {
+            friendIdList = new MutableLiveData<ArrayList<String>>();
+            friendIdList.setValue(new ArrayList<>());
+        }
+        return friendIdList;
+    }
+
+    public void search(String searchFilterStr) {
+        searchFilter.setValue(searchFilterStr);
+        repository.searchUsers(getApplication(), getFriendList(), searchFilterStr);
+    }
+
+    //Links Friend id list to friend.child(userid). if it updates 
+    private void linkFriendIdListToDatabase(){
+        repository.getFriendsId(localUserId, getFriendIdList());
+    }
+
 }
