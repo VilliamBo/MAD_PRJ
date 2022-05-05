@@ -14,12 +14,14 @@ public class Repository {
     private static Repository instance;
     private FirebaseDB db;
     private Authentication mAuth;
+    private webAPI api;
 
     private String loggedInUSerID;
 
     private Repository() {
         db = new FirebaseDB();
         mAuth = new Authentication();
+        api = new webAPI();
     }
 
     //Singleton pattern
@@ -84,7 +86,7 @@ public class Repository {
         db.linkToUserDatabase(userList, searchFilter);
     }
 
-    public void deleteUser(String userId){
+    public void deleteAccount(String userId){
         if(loggedInUSerID != null) {
             db.deleteUser(loggedInUSerID);
         }
@@ -116,5 +118,10 @@ public class Repository {
 
     public void setLoggedInUserID(String uid) {
         loggedInUSerID = uid;
+    }
+
+    //method for webAPI
+    public void getRandomImage(MutableLiveData<String> imgURL, Context context){
+        api.getRandomImage(imgURL, context);
     }
 }

@@ -18,21 +18,35 @@ public class registerUserViewModel extends AndroidViewModel {
     private MutableLiveData<FirebaseUser> userLiveData;
     private Repository repository;
 
+    private MutableLiveData<String> imgURL;
+
     //constructor
     public registerUserViewModel(@NonNull Application application) {
         super(application);
         repository = Repository.getInstance();
         authentication = new Authentication();
         userLiveData = authentication.getUserLiveData();
+
+        if(imgURL == null) {
+            imgURL = new MutableLiveData<>();
+        }
     }
 
     public void register(String email, String password){
         authentication.register(email, password, getApplication());
     }
 
-    //get method
+    public void generateRandomImage(){
+        repository.getRandomImage(imgURL, getApplication());
+    }
+
+    //get methods
     public MutableLiveData<FirebaseUser> getUserLiveData() {
         return userLiveData;
+    }
+
+    public MutableLiveData<String> getImgURL() {
+        return imgURL;
     }
 
     public void addUser(User user) {

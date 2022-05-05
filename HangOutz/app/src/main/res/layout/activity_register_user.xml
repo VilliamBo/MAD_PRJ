@@ -141,13 +141,27 @@
 
     <ImageView
         android:id="@+id/registerUserView"
-        android:layout_width="101dp"
-        android:layout_height="99dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerTextView"
         tools:src="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/genNewImgButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:text="@string/generateNewUserImage"
+        android:backgroundTint="@color/cardview_shadow_start_color"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/registerUserView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/registerUserView"
+        app:layout_constraintTop_toTopOf="@+id/registerUserView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

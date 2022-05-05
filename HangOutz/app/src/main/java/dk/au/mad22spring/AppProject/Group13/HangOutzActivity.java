@@ -97,7 +97,7 @@ public class HangOutzActivity extends AppCompatActivity {
         edtDeleteUser = findViewById(R.id.edtDeleteUser);
 
         btnDeleteUser = findViewById(R.id.btnDelete);
-        btnDeleteUser.setOnClickListener(view ->{repo.deleteUser(edtDeleteUser.getText().toString());});
+        btnDeleteUser.setOnClickListener(view ->{repo.deleteAccount(edtDeleteUser.getText().toString());});
 
 
     }

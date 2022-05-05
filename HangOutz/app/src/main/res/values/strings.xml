@@ -24,4 +24,5 @@
     <string name="notUserTxt">Not user yet?</string>
     <string name="btnBack">Back</string>
     <string name="btnAddFriend">Add Friend</string>
+    <string name="generateNewUserImage">Random image</string>
 </resources>
