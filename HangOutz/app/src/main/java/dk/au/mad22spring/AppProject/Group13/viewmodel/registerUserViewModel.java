@@ -38,4 +38,8 @@ public class registerUserViewModel extends AndroidViewModel {
     public void addUser(User user) {
         repository.addUser(user);
     }
+
+    public void logOut() {
+        authentication.logOut();
+    }
 }

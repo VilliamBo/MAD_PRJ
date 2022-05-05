@@ -35,6 +35,16 @@ public class mainViewModel extends AndroidViewModel {
         repository.setLoggedInUserID(null);
     }
 
+    public void setActivity(String activity){
+        repository.setActivity(activity);
+    }
+    public void setEnergy(int energy){
+        repository.setEnergy(energy);
+    }
+    public void setActive(Boolean state){
+        repository.setActive(state);
+    }
+
     //get methods
     public MutableLiveData<FirebaseUser> getUserLiveData() {
         return userLiveData;
