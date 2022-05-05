@@ -1,16 +1,21 @@
 package dk.au.mad22spring.AppProject.Group13.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
 public class Repository {
 
+    private static final String TAG = "Repository";
     private static Repository instance;
     private FirebaseDB db;
     public Authentication auth;
+    private String loggedInUSerID;
 
     private Repository(){
         db = new FirebaseDB();
@@ -68,5 +73,16 @@ public class Repository {
 
     public void getUsersFromId(Context context, MutableLiveData<ArrayList<User>> userList, ArrayList<String> userIdList){
         db.getUsersFromId(context, userList, userIdList);
+    }
+
+    public String getLoggedInUserID(){
+        if(loggedInUSerID==null){
+            Log.d(TAG, "getLoggedInUserID: No user logged in. ID = null");
+        }
+        return loggedInUSerID;
+    }
+
+    public void setLoggedInUserID(String uid) {
+        loggedInUSerID = uid;
     }
 }

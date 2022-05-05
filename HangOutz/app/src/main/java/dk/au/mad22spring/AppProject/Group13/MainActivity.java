@@ -30,6 +30,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 
 import dk.au.mad22spring.AppProject.Group13.model.BBCharacter;
+import dk.au.mad22spring.AppProject.Group13.model.Repository;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.mainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 viewModel.logOut();
+                Repository.getInstance().setLoggedInUserID(null);
             }
         });
 

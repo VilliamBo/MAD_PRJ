@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import dk.au.mad22spring.AppProject.Group13.model.Repository;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.loginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,7 +40,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser != null){
-                    viewModel.notifyLogin();
+                    Log.d("TAG", "LoggedIn ID: " + viewModel.getUserLiveData().getValue().getUid());
+                    Repository.getInstance().setLoggedInUserID(viewModel.getUserLiveData().getValue().getUid());
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -75,7 +78,9 @@ public class LoginActivity extends AppCompatActivity {
         checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(LoginActivity.this, "Check auth: " + viewModel.getUserLiveData().getValue(), Toast.LENGTH_SHORT).show();
+                Log.d("CurrentUserID", "CurrentUserID "+ Repository.getInstance().getLoggedInUserID());
+                Log.d("CurrentUserID2", "CurrentUserID "+ Repository.getInstance().auth.getCurrentUser());
+
                 //Toast.makeText(LoginActivity.this, "Button pressed", Toast.LENGTH_SHORT).show();
             }
         });

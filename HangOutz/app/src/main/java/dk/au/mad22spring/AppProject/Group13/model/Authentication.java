@@ -16,10 +16,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Authentication {
 
-    private FirebaseAuth mAuth;
+    public FirebaseAuth mAuth;
 
     private MutableLiveData<FirebaseUser> userLiveData;
     private MutableLiveData<Boolean> loggedOutLiveData;
+
 
     //Constructor
     public Authentication(){
@@ -40,6 +41,7 @@ public class Authentication {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     userLiveData.postValue(mAuth.getCurrentUser());
+                    logOut();
                 }else{
                     Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -65,6 +67,7 @@ public class Authentication {
         loggedOutLiveData.postValue(true);
     }
 
+    public FirebaseUser getCurrentUser(){return mAuth.getCurrentUser();}
     //get methods
     public MutableLiveData<FirebaseUser> getUserLiveData() {
         return userLiveData;

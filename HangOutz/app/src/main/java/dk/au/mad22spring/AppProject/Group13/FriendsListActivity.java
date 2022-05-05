@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -39,12 +40,14 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
     private Button btnBack, btnAddFriend;
     private EditText edtSearchFriend;
 
-    private String localUserId = "1234";
+    private String localUserId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_list);
+
+        localUserId = Repository.getInstance().getLoggedInUserID();
 
         //setup viewModel
         vm = new ViewModelProvider(this).get(FriendsListViewModel.class);
@@ -74,7 +77,7 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
         checkUID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("friends", "UID: " + Repository.getInstance().auth.getUserLiveData().getValue().getUid());
+                Log.d("CurrentUserID", "UID: " + localUserId);
             }
         });
 
