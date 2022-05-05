@@ -70,5 +70,4 @@ public class FriendsListViewModel extends AndroidViewModel {
     private void linkFriendIdListToDatabase(){
         repository.getFriendsId(localUserId, getFriendIdList());
     }
-
 }

@@ -1,6 +1,8 @@
 package dk.au.mad22spring.AppProject.Group13.model;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,17 +14,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class AuthenticationRepository {
+public class Authentication {
 
-    private Application application;
     private FirebaseAuth mAuth;
 
     private MutableLiveData<FirebaseUser> userLiveData;
     private MutableLiveData<Boolean> loggedOutLiveData;
 
     //Constructor
-    public AuthenticationRepository(Application application){
-        this.application = application;
+    public Authentication(){
         this.mAuth = FirebaseAuth.getInstance();
         this.userLiveData = new MutableLiveData<>();
         this.loggedOutLiveData = new MutableLiveData<>();
@@ -34,27 +34,27 @@ public class AuthenticationRepository {
         }
     }
 
-    public void register(String email, String password){
+    public void register(String email, String password, Context context){
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     userLiveData.postValue(mAuth.getCurrentUser());
                 }else{
-                    Toast.makeText(application, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    public void login(String email, String password){
+    public void login(String email, String password, Context context){
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    userLiveData.postValue(mAuth.getCurrentUser());
+                    userLiveData.setValue(mAuth.getCurrentUser());
                 }else{
-                    Toast.makeText(application, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

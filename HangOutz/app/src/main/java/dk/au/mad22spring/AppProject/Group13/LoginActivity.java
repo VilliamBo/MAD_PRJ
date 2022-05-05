@@ -3,6 +3,7 @@ package dk.au.mad22spring.AppProject.Group13;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -24,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginBtn, registerNewBtn;
     private TextView userNameTxt, passwordTxt;
 
+    private Button checkBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser != null){
+                    viewModel.notifyLogin();
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -63,6 +68,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 login();
+            }
+        });
+
+        checkBtn = findViewById(R.id.checkBtn);
+        checkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(LoginActivity.this, "Check auth: " + viewModel.getUserLiveData().getValue(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LoginActivity.this, "Button pressed", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -6,17 +6,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+
 import java.util.ArrayList;
 
 import dk.au.mad22spring.AppProject.Group13.adaptor.FriendsListAdaptor;
+import dk.au.mad22spring.AppProject.Group13.model.Authentication;
+import dk.au.mad22spring.AppProject.Group13.model.Repository;
 import dk.au.mad22spring.AppProject.Group13.model.User;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.FriendsListViewModel;
 
 public class FriendsListActivity extends AppCompatActivity implements FriendsListAdaptor.IFriendItemClickedListener {
+
+    //testing
+    private Button checkUID;
 
     //Recycler view
     RecyclerView recFriends;
@@ -60,6 +69,15 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
         vm.getFriendList().observe(this, users -> {updateAdapter(users);});
 
         recFriends.setAdapter(adaptor);
+
+        checkUID = findViewById(R.id.checkUID);
+        checkUID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("friends", "UID: " + Repository.getInstance().auth.getUserLiveData().getValue().getUid());
+            }
+        });
+
     }
 
     @Override

@@ -8,18 +8,18 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseUser;
 
-import dk.au.mad22spring.AppProject.Group13.model.AuthenticationRepository;
+import dk.au.mad22spring.AppProject.Group13.model.Authentication;
 
 public class mainViewModel extends AndroidViewModel {
 
-    private AuthenticationRepository repository;
+    private Authentication repository;
     private MutableLiveData<FirebaseUser> userLiveData;
     private MutableLiveData<Boolean> loggedOutLiveData;
 
     public mainViewModel(@NonNull Application application) {
         super(application);
 
-        repository = new AuthenticationRepository(application);
+        repository = new Authentication();
         userLiveData = repository.getUserLiveData();
         loggedOutLiveData = repository.getLoggedOutLiveData();
     }

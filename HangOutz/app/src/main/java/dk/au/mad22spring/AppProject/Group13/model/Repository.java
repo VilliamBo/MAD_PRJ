@@ -10,9 +10,11 @@ public class Repository {
 
     private static Repository instance;
     private FirebaseDB db;
+    public Authentication auth;
 
     private Repository(){
         db = new FirebaseDB();
+        auth = new Authentication();
     }
 
     //Singleton pattern
@@ -29,23 +31,23 @@ public class Repository {
         }
     }
 
-    public void getUSer(String userId, MutableLiveData<User> user){
+    public void getUser(String userId, MutableLiveData<User> user){
         db.getUser(userId, user);
     }
     public void setUserLocation(String localUserId, String location1, String location2){
-        db.setUserLocation(localUserId, location1, location2);
+        db.setUserLocation(auth.getUserLiveData().getValue().getUid(), location1, location2);
     }
 
     public void setUserImg(String localUserId, String imgUrl){
-        db.setUserImg(localUserId, imgUrl);
+        db.setUserImg(auth.getUserLiveData().getValue().getUid(), imgUrl);
     }
 
     public void setUserName(String localUserId, String name){
-        db.setUserName(localUserId, name);
+        db.setUserName(auth.getUserLiveData().getValue().getUid(), name);
     }
 
     public void addFriend(String localUserID, String friendUserID){
-        db.addFriend(localUserID, friendUserID);
+        db.addFriend(auth.getUserLiveData().getValue().getUid(), friendUserID);
     }
 
     public void searchUsers(Context context, MutableLiveData<ArrayList<User>> userList, String searchStr){
@@ -57,11 +59,11 @@ public class Repository {
     }
 
     public void deleteUser(String userId){
-        db.deleteUser(userId);
+        db.deleteUser(auth.getUserLiveData().getValue().getUid());
     }
 
     public void getFriendsId(String localUserID, MutableLiveData<ArrayList<String>> friendsIdList){
-        db.getFriendsId(localUserID, friendsIdList);
+        db.getFriendsId(auth.getUserLiveData().getValue().getUid(), friendsIdList);
     }
 
     public void getUsersFromId(Context context, MutableLiveData<ArrayList<User>> userList, ArrayList<String> userIdList){

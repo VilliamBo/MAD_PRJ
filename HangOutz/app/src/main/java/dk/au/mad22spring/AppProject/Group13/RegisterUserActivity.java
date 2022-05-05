@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import dk.au.mad22spring.AppProject.Group13.model.User;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.loginViewModel;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.registerUserViewModel;
 
@@ -40,6 +41,12 @@ public class RegisterUserActivity extends AppCompatActivity {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser != null){
+                    User user = new User(
+                            firebaseUser.getUid(),
+                            regUsername.getText().toString(),
+                            firebaseUser.getEmail(),
+                            "");
+                    viewModel.addUser(user);
                     Toast.makeText(RegisterUserActivity.this, "User is already logged in", Toast.LENGTH_SHORT).show();
                     finish();
                 }

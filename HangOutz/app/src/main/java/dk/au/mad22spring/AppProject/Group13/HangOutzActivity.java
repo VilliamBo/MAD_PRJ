@@ -42,7 +42,7 @@ public class HangOutzActivity extends AppCompatActivity {
         setupUI();
         //Cast exception if write to DB fails.
 
-        fillDB();
+        //fillDB();
         repo.addUser(localUser);
     }
 

@@ -20,4 +20,15 @@ public class User {
         email = Id + "@gmail.com";
         imgUrl = "www.dr.dk";
     }
+
+    public User(String Id, String Name, String Email, String ImgUrl){
+        id = Id;
+        name = Name;
+        location1 = "unknown";
+        location2 = "unknown";
+        email = Email;
+        imgUrl = ImgUrl;
+    }
+
+
 }
