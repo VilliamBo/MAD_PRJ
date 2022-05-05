@@ -24,27 +24,31 @@ public class FirebaseDB {
     private DatabaseReference userCloudEndPoint;
     private DatabaseReference friendsCloudEndPoint;
 
-    private MutableLiveData<ArrayList<User>> friends;
-
     public FirebaseDB(){
         db = FirebaseDatabase.getInstance();
         userCloudEndPoint = db.getReference("Users");
         friendsCloudEndPoint = db.getReference("Friends");
-
-        friends = new MutableLiveData<>();
     }
 
     public void addUser(User user){
         if(user != null){
             userCloudEndPoint.child(user.id).setValue(user);
             friendsCloudEndPoint.child(user.id).setValue(user.id);
-
         }
     }
 
-    public void setLocation(String userId, String location1, String location2){
-        userCloudEndPoint.child(userId).child("location1").setValue(location1);
-        userCloudEndPoint.child(userId).child("location1").setValue(location2);
+    public void getUser(String userID, MutableLiveData<User> user){
+        userCloudEndPoint.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user.setValue(snapshot.getValue(User.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void addFriend(String localUserID, String friendUserID) {
@@ -96,7 +100,6 @@ public class FirebaseDB {
         });
     }
 
-
     public void getFriendsId(String localUserID, MutableLiveData<ArrayList<String>> friendsIdList){
         friendsCloudEndPoint.child(localUserID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -118,7 +121,6 @@ public class FirebaseDB {
         //return friends;
     }
 
-    //MutableLiveData<ArrayList<User>> friendList
     public void getFriends(String localUserID, MutableLiveData<ArrayList<User>> friendsList){
         friendsCloudEndPoint.child(localUserID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -162,30 +164,6 @@ public class FirebaseDB {
         });
     }
 
-    /*public void linkToFriendDatabase(MutableLiveData<ArrayList<User>> friendList, MutableLiveData<String> searchFilter){
-        friendsCloudEndPoint.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<User> myList = new ArrayList<>();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
-                    if(searchFilter.getValue().equals("") || user.id.contains(searchFilter.getValue())){
-                        myList.add(user);
-                        userList.setValue(myList);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-     */
-
-
     public void searchUsers(Context context, MutableLiveData<ArrayList<User>> userList, String searchStr){
             userCloudEndPoint.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -207,6 +185,39 @@ public class FirebaseDB {
                 @Override
                 public void onCancelled(@NonNull DatabaseError error){}
             });
+    }
+
+    public void setUserLocation(String userID, String location1, String location2){
+        userCloudEndPoint.child(userID).child("location1").setValue(location1);
+        userCloudEndPoint.child(userID).child("location2").setValue(location2);
+    }
+
+    public void setUserImg(String userID, String imgUrl){
+        userCloudEndPoint.child(userID).child("imgUrl").setValue(imgUrl);
+    }
+
+    public void setUserName(String userID, String name){
+        userCloudEndPoint.child(userID).child("name").setValue(name);
+    }
+
+    public void deleteUser(String userID){
+        userCloudEndPoint.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (userID != null){
+                    if (snapshot.hasChild(userID) && !userID.equals("")) {
+                        userCloudEndPoint.child(userID).removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 }
 

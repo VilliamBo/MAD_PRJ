@@ -21,15 +21,14 @@ public class HangOutzActivity extends AppCompatActivity {
     private static final String TAG = "TAG";
 
     //ui widgets
-    public Button btnAddFriend, btnWrite, btnGoToAddFriend, btnFriendList;
+    public Button btnAddFriend, btnWrite, btnGoToAddFriend, btnFriendList, btnUpdateUser, btnDeleteUser;
     public TextView txtCount;
-    public EditText edtAddFriendUserID;
+    public EditText edtAddFriendUserID, edtDeleteUser;
     private int counter = 0;
 
     //local variables
     private Repository repo;
     private User localUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,6 @@ public class HangOutzActivity extends AppCompatActivity {
         fillDB();
         repo.addUser(localUser);
     }
-
 
     private void fillDB() {
         for (int i = 0; i < 10; i++) {
@@ -70,7 +68,7 @@ public class HangOutzActivity extends AppCompatActivity {
             counter++;
             localUser.location1=""+(38+counter*2);
             localUser.location2=""+counter;
-            repo.setLocation(localUser.id, localUser.location1, localUser.location2);
+            repo.setUserLocation(localUser.id, localUser.location1, localUser.location2);
         });
 
         btnGoToAddFriend = findViewById(R.id.btnGoToAddFriend);
@@ -87,5 +85,20 @@ public class HangOutzActivity extends AppCompatActivity {
             Intent i = new Intent(HangOutzActivity.this, FriendsListActivity.class);
             startActivity(i);
         });
+
+        btnUpdateUser = findViewById(R.id.btnUpdateUser);
+        btnUpdateUser.setOnClickListener(view -> {
+            repo.setUserLocation("1234", ""+counter, ""+counter);
+            repo.setUserImg("1234", "img"+counter);
+            repo.setUserName("1234", "David"+counter);
+            counter++;
+        });
+
+        edtDeleteUser = findViewById(R.id.edtDeleteUser);
+
+        btnDeleteUser = findViewById(R.id.btnDelete);
+        btnDeleteUser.setOnClickListener(view ->{repo.deleteUser(edtDeleteUser.getText().toString());});
+
+
     }
 }

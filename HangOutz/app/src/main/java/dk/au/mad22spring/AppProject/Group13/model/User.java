@@ -8,7 +8,7 @@ public class User {
     public String location1;
     public String location2;
     public String email;
-    public String img;
+    public String imgUrl;
 
     public User(){}
 
@@ -18,6 +18,6 @@ public class User {
         location1 = "unknown";
         location2 = "unknown";
         email = Id + "@gmail.com";
-        img = "www.dr.dk";
+        imgUrl = "www.dr.dk";
     }
 }
