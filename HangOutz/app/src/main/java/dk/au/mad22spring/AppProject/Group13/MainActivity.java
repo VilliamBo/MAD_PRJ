@@ -1,10 +1,16 @@
 package dk.au.mad22spring.AppProject.Group13;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationRequest;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +26,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
@@ -46,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView loggedInUserText;
     private ImageView BBCharImg;
 
+    // Location Variables
+    private FusedLocationProviderClient fusedLocationClient;
+    private Location lastKnownLocation = null;
+    private Location currentLocation = null;
+    private Boolean noLocation = false;
 
     //API variables
     private RequestQueue myRequestQueue;
@@ -82,7 +98,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        setupMap(savedInstanceState);
         setupUI();
+    }
+
+    private void setupMap(Bundle savedInstanceState) {
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.mapsContainer, new MapsFragment())
+                    .commitNow();
+        }
     }
 
     private void goToLoginScreen() {
@@ -118,6 +143,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // TODO: Implement below comment
+        /* Add Button for "Find A friend"
+        * When clicked call -> getCurrentLocation() until Location != null
+        *
+        * do {
+        *     currentLocation = getCurrentLocation();
+        * } while (currentLocation == null);
+        *
+        * Then call viewModel.setUserLocation(), which calls repo.setUserLocation().
+         */
+
+
+        setupLocationFramework();
     }
 
     private void fetchAPI() {
@@ -153,5 +192,93 @@ public class MainActivity extends AppCompatActivity {
             Glide.with(BBCharImg.getContext()).load(characters[0].getImg()).into(BBCharImg);
         }
 
+    }
+
+    private void setupLocationFramework() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    }
+
+    // https://developer.android.com/training/location/request-updates#java
+    private Location getLastLocation() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_CODE);;
+        }
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        lastKnownLocation = location;
+                        if (location == null) {
+                            Toast.makeText(fusedLocationClient.getApplicationContext(), "No location was found", Toast.LENGTH_SHORT).show();
+                            noLocation = true;
+                        }
+                    }
+                });
+
+        if (noLocation) {
+            noLocation = false;
+            return null;
+        } else {
+            return lastKnownLocation;
+        }
+    }
+
+    // https://developer.android.com/training/location/retrieve-current
+    private Location getCurrentLocation() {
+
+        CancellationToken cancellationToken = new CancellationToken() {
+            @Override
+            public boolean isCancellationRequested() {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
+                return null;
+            }
+        };
+
+        // Check to see if permissions have been granted. If not request the permissions
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_CODE);;
+        }
+
+        fusedLocationClient.getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cancellationToken)
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        currentLocation = location;
+                        if (location == null) {
+                            Toast.makeText(fusedLocationClient.getApplicationContext(), "No location was found", Toast.LENGTH_SHORT).show();
+                            noLocation = true;
+                        }
+                    }
+                });
+
+        if(noLocation){
+            noLocation = false;
+            return null;
+        } else {
+            return currentLocation;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Constants.LOCATION_PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(Constants.DEBUG, "checkPermissions: PERMISSION_GRANTED");
+                } else {
+                    Toast.makeText(this, "Location permissions need to be enabled to use this feature", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                return;
+            }
+        }
     }
 }

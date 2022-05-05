@@ -13,22 +13,10 @@
         android:text="Read"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.195"
+        app:layout_constraintHorizontal_bias="0.201"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48" />
-
-    <Button
-        android:id="@+id/btnWrite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Write"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.757"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48" />
+        app:layout_constraintVertical_bias="0.537" />
 
     <TextView
         android:id="@+id/txtCount"
@@ -37,9 +25,22 @@
         android:text="Count"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintVertical_bias="0.624" />
+
+    <Button
+        android:id="@+id/btnWrite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.764"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.537" />
 
     <Button
         android:id="@+id/btnAddFriend"
@@ -128,4 +129,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.833" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/hangoutzMapContainer"
+        android:name="dk.au.mad22spring.AppProject.Group13.MapsFragment"
+        android:layout_width="345dp"
+        android:layout_height="194dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnReadDB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddFriend" />
 </androidx.constraintlayout.widget.ConstraintLayout>

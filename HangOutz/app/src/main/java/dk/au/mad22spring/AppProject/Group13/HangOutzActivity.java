@@ -44,7 +44,18 @@ public class HangOutzActivity extends AppCompatActivity {
 
         //fillDB();
         repo.addUser(localUser);
+
+        setupMap(savedInstanceState);
     }
+
+    private void setupMap(Bundle savedInstanceState) {
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.hangoutzMapContainer, new MapsFragment())
+                    .commitNow();
+        }
+    }
+
 
     private void fillDB() {
         for (int i = 0; i < 10; i++) {

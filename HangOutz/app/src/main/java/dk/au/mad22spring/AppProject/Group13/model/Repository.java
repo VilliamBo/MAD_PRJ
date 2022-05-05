@@ -34,8 +34,8 @@ public class Repository {
     public void getUser(String userId, MutableLiveData<User> user){
         db.getUser(userId, user);
     }
-    public void setUserLocation(String localUserId, String location1, String location2){
-        db.setUserLocation(auth.getUserLiveData().getValue().getUid(), location1, location2);
+    public void setUserLocation(String localUserId, String latitude, String longitude){
+        db.setUserLocation(auth.getUserLiveData().getValue().getUid(), latitude, longitude);
     }
 
     public void setUserImg(String localUserId, String imgUrl){

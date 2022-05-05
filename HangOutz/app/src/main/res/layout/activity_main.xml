@@ -34,13 +34,14 @@
 
     <ImageView
         android:id="@+id/BBimageView"
-        android:layout_width="215dp"
-        android:layout_height="218dp"
+        android:layout_width="115dp"
+        android:layout_height="119dp"
         android:contentDescription="BrakingBad character"
         app:layout_constraintBottom_toTopOf="@+id/logOutBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginStatusTxt"
+        app:layout_constraintVertical_bias="0.911"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
@@ -63,4 +64,23 @@
         android:text="GoToHangOutz"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mapsView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginStatusTxt">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mapsContainer"
+            android:name="dk.au.mad22spring.AppProject.Group13.MapsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="256dp" />
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

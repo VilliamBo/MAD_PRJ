@@ -24,4 +24,6 @@
     <string name="notUserTxt">Not user yet?</string>
     <string name="btnBack">Back</string>
     <string name="btnAddFriend">Add Friend</string>
+    <string name="joinHangout">Join Hangout!</string>
+    <string name="cancel">Cancel</string>
 </resources>
