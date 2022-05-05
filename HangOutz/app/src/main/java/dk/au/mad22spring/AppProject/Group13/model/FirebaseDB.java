@@ -60,11 +60,11 @@ public class FirebaseDB {
                     //Add Friend
                     friendsCloudEndPoint.child(localUserID).child(friendUserID).setValue("");
                     //friendsCloudEndPoint.child(localUserID).child(friendUserID);
-                    Log.d(TAG, "addFirend: User " + friendUserID + " added to User " + localUserID + "friendsList" );
+                    Log.d(TAG, "addFriend: User: " + friendUserID + " added to User: " + localUserID + "'s friendsList" );
                 }
                 else {
-                    //Firend do not exist in DB
-                    Log.d(TAG, "addFirend: User " + friendUserID + "dont exsist");
+                    //Friend do not exist in DB
+                    Log.d(TAG, "addFriend: User: " + friendUserID + " does not exist");
                 }
             }
 
@@ -89,9 +89,9 @@ public class FirebaseDB {
                     }
                     userList.setValue(newFriendList);
                 }
-                if(userIdList.size()==0) {
+                if(userIdList.isEmpty()) {
                     Toast toast = Toast.makeText(context, "You have no friends :(", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0,0);
+                    //toast.setGravity(Gravity.CENTER, 0,0);
                     toast.show();
                 }
             }
@@ -176,9 +176,9 @@ public class FirebaseDB {
                         }
                         userList.setValue(myList);
                     }
-                    if(myList.size()==0) {
+                    if(myList.isEmpty()) {
                         Toast toast = Toast.makeText(context, "No Users Found", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0,0);
+                        //toast.setGravity(Gravity.CENTER, 0,0);
                         toast.show();
                     }
                 }

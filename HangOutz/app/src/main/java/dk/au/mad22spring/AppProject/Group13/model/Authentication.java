@@ -1,13 +1,10 @@
 package dk.au.mad22spring.AppProject.Group13.model;
 
-import android.app.Application;
-import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
+import android.content.Context;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,6 +39,13 @@ public class Authentication {
                 if(task.isSuccessful()){
                     userLiveData.postValue(mAuth.getCurrentUser());
                     logOut();
+
+                    mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                        @Override
+                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                        }
+                    });
                 }else{
                     Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -54,7 +58,7 @@ public class Authentication {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    userLiveData.setValue(mAuth.getCurrentUser());
+                    userLiveData.postValue(mAuth.getCurrentUser());
                 }else{
                     Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -67,8 +71,9 @@ public class Authentication {
         loggedOutLiveData.postValue(true);
     }
 
-    public FirebaseUser getCurrentUser(){return mAuth.getCurrentUser();}
     //get methods
+    public FirebaseUser getCurrentUser(){return mAuth.getCurrentUser();}
+
     public MutableLiveData<FirebaseUser> getUserLiveData() {
         return userLiveData;
     }

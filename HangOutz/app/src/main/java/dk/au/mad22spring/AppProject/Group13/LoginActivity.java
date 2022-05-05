@@ -22,13 +22,16 @@ import dk.au.mad22spring.AppProject.Group13.viewmodel.loginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
+
+    //viewModel instance
     private loginViewModel viewModel;
 
     //UI widgets
     private Button loginBtn, registerNewBtn;
     private TextView userNameTxt, passwordTxt;
 
-    private Button checkBtn;
+    private Button checkBtn; // for developing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +43,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser != null){
-                    Log.d("TAG", "LoggedIn ID: " + viewModel.getUserLiveData().getValue().getUid());
-                    Repository.getInstance().setLoggedInUserID(viewModel.getUserLiveData().getValue().getUid());
+                    Log.d("TAG", "LoggedIn ID: " + firebaseUser.getUid());
+                    viewModel.setLoggedInUserID(firebaseUser.getUid());
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -74,14 +77,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // for developing
         checkBtn = findViewById(R.id.checkBtn);
         checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("CurrentUserID", "CurrentUserID "+ Repository.getInstance().getLoggedInUserID());
-                Log.d("CurrentUserID2", "CurrentUserID "+ Repository.getInstance().auth.getCurrentUser());
-
-                //Toast.makeText(LoginActivity.this, "Button pressed", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Current user ID: " + viewModel.getLoggedInUserID());
             }
         });
     }
@@ -101,9 +102,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{ // inputs OK - call ViewModel function
             viewModel.login(email, password);
-            // erase input lines if user not recognized
-            //userNameTxt.setText("");
-            //passwordTxt.setText("");
         }
     }
 }

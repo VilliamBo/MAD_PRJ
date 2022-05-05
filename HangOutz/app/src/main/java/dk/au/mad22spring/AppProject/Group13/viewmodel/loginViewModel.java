@@ -31,12 +31,16 @@ public class loginViewModel extends AndroidViewModel {
         authentication.login(email, password, getApplication());
     }
 
+    public void setLoggedInUserID(String userID){
+        repository.setLoggedInUserID(userID);
+    }
+
+    public String getLoggedInUserID(){
+        return repository.getLoggedInUserID();
+    }
+
     //get method
     public MutableLiveData<FirebaseUser> getUserLiveData() {
         return userLiveData;
-    }
-
-    public void notifyLogin(){
-        repository.auth = new Authentication();
     }
 }

@@ -37,8 +37,6 @@ public class FriendsListViewModel extends AndroidViewModel {
         }
         //repository.getAllFriends(localUserId, getFriendList());
         linkFriendIdListToDatabase();
-
-
     }
 
     public void updateFriendList() {

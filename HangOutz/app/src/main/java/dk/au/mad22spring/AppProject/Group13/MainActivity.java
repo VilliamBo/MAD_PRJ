@@ -40,12 +40,11 @@ public class MainActivity extends AppCompatActivity {
     private mainViewModel viewModel;
 
     //UI widgets
-    private Button logOutBtn, fetchButton;
+    private Button logOutBtn, fetchButton; // for developing
+    private TextView loggedInUserText; // for developing
 
+    private ImageView BBCharImg; // for developing
     private Button goToHangOutzBtn; // for developing
-
-    private TextView loggedInUserText;
-    private ImageView BBCharImg;
 
 
     //API variables
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(Boolean loggedOut) {
                 if(loggedOut){
                     Toast.makeText(MainActivity.this, "User logged out", Toast.LENGTH_SHORT).show();
+                    viewModel.setStatusAsLoggedOut(); // loggedInUserID = null
                     goToLoginScreen();
                 }
             }
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
 
+        // ############### for developing #################### //
         BBCharImg = findViewById(R.id.BBimageView);
         fetchButton = findViewById(R.id.fetchAPIBtn);
         fetchButton.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 fetchAPI();
             }
         });
+        // ############### for developing #################### //
 
         loggedInUserText = findViewById(R.id.loginStatusTxt);
         logOutBtn = findViewById(R.id.logOutBtn);
@@ -108,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 viewModel.logOut();
-                Repository.getInstance().setLoggedInUserID(null);
             }
         });
 

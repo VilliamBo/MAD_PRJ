@@ -14,20 +14,20 @@ import dk.au.mad22spring.AppProject.Group13.model.User;
 
 public class registerUserViewModel extends AndroidViewModel {
 
-    private Authentication repository;
+    private Authentication authentication;
     private MutableLiveData<FirebaseUser> userLiveData;
-    private Repository repo;
+    private Repository repository;
 
     //constructor
     public registerUserViewModel(@NonNull Application application) {
         super(application);
-        repo = Repository.getInstance();
-        repository = new Authentication();
-        userLiveData = repository.getUserLiveData();
+        repository = Repository.getInstance();
+        authentication = new Authentication();
+        userLiveData = authentication.getUserLiveData();
     }
 
     public void register(String email, String password){
-        repository.register(email, password, getApplication());
+        authentication.register(email, password, getApplication());
     }
 
     //get method
@@ -36,6 +36,6 @@ public class registerUserViewModel extends AndroidViewModel {
     }
 
     public void addUser(User user) {
-        repo.addUser(user);
+        repository.addUser(user);
     }
 }
