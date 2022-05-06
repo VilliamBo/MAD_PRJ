@@ -113,7 +113,7 @@ public class MapsFragment extends Fragment {
 
             if(map != null){
                 Log.d(Constants.DEBUG, "addMarker: map != null");
-                map.addMarker(new MarkerOptions().position(friendLocation).title(user.name).snippet("Energy " + user.energy + "%\n" + user.activity));
+                map.addMarker(new MarkerOptions().position(friendLocation).title(user.name).snippet("Energy " + user.energy + "% " + user.activity));
             }
         }
     }
