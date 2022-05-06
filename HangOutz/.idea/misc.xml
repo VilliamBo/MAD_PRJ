@@ -3,18 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Villi/AndroidStudioProjects/MAD_PRJ/HangOutz/app/src/main/res/layout/activity_friends_list.xml" value="0.22" />
-        <entry key="..\:/Users/Villi/AndroidStudioProjects/MAD_PRJ/HangOutz/app/src/main/res/layout/activity_hang_outz.xml" value="0.1" />
-        <entry key="..\:/Users/Villi/AndroidStudioProjects/MAD_PRJ/HangOutz/app/src/main/res/layout/activity_main.xml" value="0.2682291666666667" />
-        <entry key="..\:/Users/Villi/AndroidStudioProjects/MAD_PRJ/HangOutz/app/src/main/res/layout/friend_item.xml" value="0.26458333333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_alternate_email_24.xml" value="0.225" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_authentication.xml" value="0.35052083333333334" />
         <entry key="app/src/main/res/layout/activity_friends_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_hang_outz.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2239627414279514" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19304538302951385" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.42845035129123266" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3602374606662326" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.11388888888888889" />
         <entry key="app/src/main/res/layout/activity_register_user.xml" value="0.18020833333333333" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.19880421956380206" />
