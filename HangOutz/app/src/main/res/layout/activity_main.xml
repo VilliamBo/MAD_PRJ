@@ -95,8 +95,8 @@
                 android:id="@+id/edtActivity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/white"
-                android:text="What are you up to?" />
+                android:hint="What are you up to?"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </ScrollView>

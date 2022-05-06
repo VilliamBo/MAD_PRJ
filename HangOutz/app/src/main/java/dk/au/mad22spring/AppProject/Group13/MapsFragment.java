@@ -108,7 +108,7 @@ public class MapsFragment extends Fragment {
 
         // Delete all markers = No dupes & old markers.
 
-        //deleteMapMarkers(); // THIS MAKES THE APP CRASH...
+        deleteMapMarkers();
 
         // Add all the updated markers.
         if(viewModel.getFriendLocations() != null){
@@ -140,6 +140,9 @@ public class MapsFragment extends Fragment {
 
     private void deleteMapMarkers() {
         // Deletes all map markers, etc.
-        map.clear();
+        if(map != null)
+        {
+            map.clear();
+        }
     }
 }
