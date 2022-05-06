@@ -120,6 +120,20 @@ public class Repository {
         loggedInUSerID = uid;
     }
 
+    public void setActivity(String activity) {
+        db.setActivity(loggedInUSerID, activity);
+    }
+
+    public void setEnergy(int energy) {
+        db.setEnergy(loggedInUSerID, energy);
+    }
+
+    public void setActive(Boolean state) {
+        db.setActive(loggedInUSerID, state);
+    }
+
+
+
     //method for webAPI
     public void getRandomImage(MutableLiveData<String> imgURL, Context context){
         api.getRandomImage(imgURL, context);
