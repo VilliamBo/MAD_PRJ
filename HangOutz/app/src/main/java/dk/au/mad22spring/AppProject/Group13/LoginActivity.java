@@ -16,7 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.core.Repo;
 
+import dk.au.mad22spring.AppProject.Group13.model.FirebaseDB;
 import dk.au.mad22spring.AppProject.Group13.model.Repository;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.loginViewModel;
 

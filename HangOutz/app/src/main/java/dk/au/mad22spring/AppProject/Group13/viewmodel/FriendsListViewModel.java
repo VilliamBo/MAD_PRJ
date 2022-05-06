@@ -21,6 +21,7 @@ public class FriendsListViewModel extends AndroidViewModel {
     //################### TEST VARIABLE ##################################
     private String localUserId = "1234";
     private MutableLiveData<ArrayList<String>> friendIdList;
+    private MutableLiveData<ArrayList<User>> observedFriendList;
     //####################################################################
 
 
@@ -68,4 +69,5 @@ public class FriendsListViewModel extends AndroidViewModel {
     private void linkFriendIdListToDatabase(){
         repository.getFriendsId(localUserId, getFriendIdList());
     }
+
 }

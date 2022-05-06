@@ -38,7 +38,6 @@ public class Authentication {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     userLiveData.postValue(mAuth.getCurrentUser());
-                    logOut();
 
                     mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                         @Override

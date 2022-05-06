@@ -50,6 +50,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                             firebaseUser.getEmail(),
                             userImageURL);
                     viewModel.addUser(user);
+                    viewModel.logOut();
                     finish();
                 }
             }

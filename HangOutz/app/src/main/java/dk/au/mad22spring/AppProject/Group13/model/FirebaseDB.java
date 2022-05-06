@@ -76,7 +76,7 @@ public class FirebaseDB {
     }
 
     public void getUsersFromId(Context context, MutableLiveData<ArrayList<User>> userList, ArrayList<String> userIdList){
-        userCloudEndPoint.addListenerForSingleValueEvent(new ValueEventListener() {
+        userCloudEndPoint.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<User> newFriendList = new ArrayList<>();
@@ -200,6 +200,18 @@ public class FirebaseDB {
         userCloudEndPoint.child(userID).child("name").setValue(name);
     }
 
+    public void setActivity(String userID, String activity) {
+        userCloudEndPoint.child(userID).child("activity").setValue(activity);
+    }
+
+    public void setEnergy(String userID, int energy) {
+        userCloudEndPoint.child(userID).child("energy").setValue(energy);
+    }
+
+    public void setActive(String userID, Boolean state) {
+        userCloudEndPoint.child(userID).child("active").setValue(state);
+    }
+
     public void deleteUser(String userID){
         userCloudEndPoint.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -216,9 +228,9 @@ public class FirebaseDB {
 
             }
         });
-
-
     }
+
+
 }
 
 

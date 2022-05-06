@@ -36,7 +36,7 @@ public class FriendsListAdaptor extends RecyclerView.Adapter<FriendsListAdaptor.
     private Context context;
     private ArrayList<User> friends;
 
-    //interface for when a drinkItem is clicked
+    //interface for when a Item is clicked
     public interface IFriendItemClickedListener {
         void onFriendClicked(String id);
     }

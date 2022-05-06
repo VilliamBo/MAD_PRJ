@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import dk.au.mad22spring.AppProject.Group13.adaptor.FriendsListAdaptor;
 import dk.au.mad22spring.AppProject.Group13.model.Authentication;
+import dk.au.mad22spring.AppProject.Group13.model.FirebaseDB;
 import dk.au.mad22spring.AppProject.Group13.model.Repository;
 import dk.au.mad22spring.AppProject.Group13.model.User;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.FriendsListViewModel;
@@ -70,7 +71,6 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
         //be updated via updateFriendList() using the new friends id's.
         vm.getFriendIdList().observe(this, users -> {vm.updateFriendList();});
         vm.getFriendList().observe(this, users -> {updateAdapter(users);});
-
         recFriends.setAdapter(adaptor);
 
         checkUID = findViewById(R.id.checkUID);
@@ -79,6 +79,7 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
             public void onClick(View view) {
                 Log.d("CurrentUserID", "UID: " + localUserId);
             }
+
         });
 
     }
@@ -89,30 +90,19 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
     }
 
     private void updateAdapter(ArrayList<User> friends) {
-        adaptor.setData(friends);
+        ArrayList<User> activeFriends = new ArrayList<User>();
+        for(User u : friends){
+            if(u.active)
+                activeFriends.add(u);
+        }
+        adaptor.setData(activeFriends);
         adaptor.notifyDataSetChanged();
     }
 
     private void setupUI() {
         btnBack = findViewById(R.id.btnBackFirendList);
-        //edtSearchFriend = findViewById(R.id.edtSearchFriend);
-        //edtSearchFriend.setText("");
 
         btnBack.setOnClickListener(view -> finish());
 
-        /*
-        edtSearchFriend.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String str = edtSearchFriend.getText().toString();
-                vm.search(str);
-            }
-            @Override
-            public void afterTextChanged(Editable editable){}
-        });
-
-         */
     }
 }

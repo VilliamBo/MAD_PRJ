@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,18 +43,10 @@ public class MainActivity extends AppCompatActivity {
     private mainViewModel viewModel;
 
     //UI widgets
-    private Button logOutBtn, fetchButton; // for developing
-    private TextView loggedInUserText; // for developing
-
-    private ImageView BBCharImg; // for developing
-    private Button goToHangOutzBtn; // for developing
-
-
-    //API variables
-    private RequestQueue myRequestQueue;
-    private StringRequest myStringRequest;
-    private String url = "https://www.breakingbadapi.com/api/character/random";
-
+    private Button logOutBtn, goToHangOutzBtn;
+    private EditText edtActivity;
+    private Switch swtActive;
+    private SeekBar skBarEnergy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,18 +54,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewModel = new ViewModelProvider(this).get(mainViewModel.class);
-        viewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
-            @Override
-            public void onChanged(FirebaseUser firebaseUser) {
-                if(firebaseUser != null){
-                    loggedInUserText.setText("Logged in user: " + firebaseUser.getEmail());
-                    logOutBtn.setEnabled(true);
-                }
-                else{
-                    logOutBtn.setEnabled(false);
-                }
-            }
-        });
 
         viewModel.getLoggedOutLiveData().observe(this, new Observer<Boolean>() {
             @Override
@@ -93,18 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
 
-        // ############### for developing #################### //
-        BBCharImg = findViewById(R.id.BBimageView);
-        fetchButton = findViewById(R.id.fetchAPIBtn);
-        fetchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fetchAPI();
-            }
-        });
-        // ############### for developing #################### //
-
-        loggedInUserText = findViewById(R.id.loginStatusTxt);
         logOutBtn = findViewById(R.id.logOutBtn);
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,40 +92,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
 
-    private void fetchAPI() {
+        edtActivity = findViewById(R.id.edtActivity);
 
-        //RequestQueue initiating
-        if(myRequestQueue == null){
-            myRequestQueue = Volley.newRequestQueue(this);
-        }
+        skBarEnergy = findViewById(R.id.skBarEnergy);
 
-        //String Request initiating
-        myStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        swtActive = findViewById(R.id.swtActive);
+        swtActive.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(String response) {
-                parseJson(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                viewModel.setActive(swtActive.isChecked());
+                if(swtActive.isChecked()){
+                    viewModel.setActivity(edtActivity.getText().toString());
+                    viewModel.setEnergy(skBarEnergy.getProgress());
+                }
             }
         });
-
-        myRequestQueue.add(myStringRequest);
-    }
-
-    private void parseJson(String json){
-        Log.d(TAG, "json: " + json);
-
-        Gson gson = new GsonBuilder().create();
-        BBCharacter[] characters = gson.fromJson(json, BBCharacter[].class);
-
-        if(characters[0] != null){
-            Glide.with(BBCharImg.getContext()).load(characters[0].getImg()).into(BBCharImg);
-        }
-
     }
 }
