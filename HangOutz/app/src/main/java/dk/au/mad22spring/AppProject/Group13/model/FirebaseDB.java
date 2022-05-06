@@ -75,7 +75,7 @@ public class FirebaseDB {
         });
     }
 
-    public void getUsersFromId(Context context, MutableLiveData<ArrayList<User>> userList, ArrayList<String> userIdList){
+    public void getUsersFromId(MutableLiveData<ArrayList<User>> userList, ArrayList<String> userIdList){
         userCloudEndPoint.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -88,11 +88,6 @@ public class FirebaseDB {
                         }
                     }
                     userList.setValue(newFriendList);
-                }
-                if(userIdList.isEmpty()) {
-                    Toast toast = Toast.makeText(context, "You have no friends :(", Toast.LENGTH_SHORT);
-                    //toast.setGravity(Gravity.CENTER, 0,0);
-                    toast.show();
                 }
             }
             @Override
@@ -231,6 +226,9 @@ public class FirebaseDB {
     }
 
 
+    public void removeFriend(String userID, User friendClicked) {
+        friendsCloudEndPoint.child(userID).child(friendClicked.id).removeValue();
+    }
 }
 
 

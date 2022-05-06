@@ -25,4 +25,7 @@
     <string name="btnBack">Back</string>
     <string name="btnAddFriend">Add Friend</string>
     <string name="generateNewUserImage">Random image</string>
+    <string name="btnGoToAddFriends">AddFriends</string>
+    <string name="btnDelete">Delete</string>
+    <string name="btnUserDialogAdd">Add</string>
 </resources>

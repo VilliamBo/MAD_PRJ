@@ -41,7 +41,7 @@ public class FriendsListViewModel extends AndroidViewModel {
     }
 
     public void updateFriendList() {
-        repository.getUsersFromId(getApplication().getApplicationContext(), getFriendList(), getFriendIdList().getValue());
+        repository.getUsersFromId(getFriendList(), getFriendIdList().getValue());
     }
 
     public MutableLiveData<ArrayList<User>> getFriendList(){
@@ -70,4 +70,7 @@ public class FriendsListViewModel extends AndroidViewModel {
         repository.getFriendsId(localUserId, getFriendIdList());
     }
 
+    public void removeFriend(User friendClicked) {
+        repository.removeFriend(friendClicked);
+    }
 }
