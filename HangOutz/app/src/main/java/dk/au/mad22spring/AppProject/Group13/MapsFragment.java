@@ -34,20 +34,10 @@ public class MapsFragment extends Fragment {
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
         @Override
         public void onMapReady(GoogleMap googleMap) {
 
             map = googleMap;
-            viewModel.setMap(map);
 
             /*
             if(friendLocations != null){
@@ -100,18 +90,11 @@ public class MapsFragment extends Fragment {
         });
 
          */
-
-        // TODO: Fix map boundaries.
     }
 
     public void updateMap(List<User> friendList) {
 
-        // TODO: Update when repo-function is made
-        // Get all activity locations of the active users friends
-        //friendLocations = getFriendLocations();
-
-        // Delete all markers = No dupes & old markers.
-
+        // Clear all markers on map. To avoid doubles
         deleteMapMarkers();
 
         // Add all the updated markers.
@@ -131,7 +114,6 @@ public class MapsFragment extends Fragment {
             if(map != null){
                 Log.d(Constants.DEBUG, "addMarker: map != null");
                 map.addMarker(new MarkerOptions().position(friendLocation).title(user.name).snippet("Energy " + user.energy + "%\n" + user.activity));
-                //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             }
         }
     }

@@ -37,18 +37,13 @@ public class mainViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<User>> friendList;
     private MutableLiveData<ArrayList<String>> friendIdList;
 
-
     // Constructor
     public mainViewModel(@NonNull Application application) {
         super(application);
 
-        // Purely for testing... createTestLocations() causes me to not be able to create the viewModel
         if(friendLocations == null){
-            List<Location> locations = new ArrayList<>();
-
             friendLocations = new MutableLiveData<>();
-            friendLocations.setValue(locations);
-            //createTestLocations(); // for developing
+            friendLocations.setValue(new ArrayList<>());
         }
 
         // Authentication stuff
@@ -57,8 +52,6 @@ public class mainViewModel extends AndroidViewModel {
         userLiveData = authentication.getUserLiveData();
         loggedOutLiveData = authentication.getLoggedOutLiveData();
         linkFriendIdListToDatabase();
-
-        //friendLocations = getFriendLocations();
     }
 
     public void setUserLocation(Location userLocation) {
@@ -69,47 +62,12 @@ public class mainViewModel extends AndroidViewModel {
         repository.setUserLocation(userId,latitude, longitude);
     }
 
-    public MutableLiveData<List<Location>> getFriendLocations() {
-        return friendLocations;
-        //return repo.getFriendLocations(); // Doesn't exist yet.
-    }
-
-    private void addMarker(Location location, GoogleMap googleMap) {
-        if(location != null){
-            LatLng friendLocation = new LatLng(location.getLatitude(), location.getLongitude());
-            Log.d(Constants.DEBUG, "Hangoutz addMarker: " + friendLocation);
-
-            if(googleMap != null){
-                Log.d(Constants.DEBUG, "addMarker: mMap != null");
-                googleMap.addMarker(new MarkerOptions().position(friendLocation).title("Some information about who put it up").snippet("Information about this activity here"));
-                //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            }
-        }
-    }
-
-    private void addFriendMarkers(List<Location> locations, GoogleMap googleMap) {
-        for(Location location : locations){
-            if(location != null) {
-                addMarker(location, googleMap);
-            }
-        }
-    }
-
-    private void deleteMapMarkers(GoogleMap googleMap) {
-        // Deletes all map markers, etc.
-        googleMap.clear();
-    }
-
     public void showDialogue(Marker marker) {
 
         // TODO: Implement this properly.
         /* Get data from user. Including picture, what they typed in the activity hint,
          * what they set the energy barometer to and how much time left (maybe?)
          */
-
-        //int iconId = auth.getUserLiveData().getValue()
-        //repo.getUser();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getApplication().getApplicationContext())
                 //.setIcon()
                 //.setMessage(auth.getUserLiveData().getValue().getActivity() + "\n Energy Level: " + userLiveData.getValue().getEnergyLevel() + "%")
@@ -132,40 +90,6 @@ public class mainViewModel extends AndroidViewModel {
     //TODO: Implement this. It has to notify your friend that you joined the hangout.
     private void notifyFriend() {
         Toast.makeText(getApplication().getApplicationContext(), "You joined the hangout!", Toast.LENGTH_SHORT).show();
-    }
-
-    // This method is purely for testing -> nice to have ;)
-    public void createTestLocations() {
-        Location Randers = new Location("Randers");
-        Randers.setLatitude(56.4586);
-        Randers.setLongitude(10.0402);
-
-        Location Aarhus = new Location("Aarhus");
-        Aarhus.setLatitude(56.1569);
-        Aarhus.setLongitude(10.2108);
-
-        Location Miami = new Location("Miami");
-        Miami.setLatitude(25.7617);
-        Miami.setLongitude(-80.1918);
-
-        Location London = new Location("London");
-        London.setLatitude(51.4346);
-        London.setLongitude(-0.4578);
-
-        friendLocations.getValue().add(Randers);
-        friendLocations.getValue().add(Aarhus);
-        friendLocations.getValue().add(Miami);
-        friendLocations.getValue().add(London);
-    }
-
-    // get and set methods for maps
-
-    public void setMap(GoogleMap googleMap) {
-        map = googleMap;
-    }
-
-    public GoogleMap getMap(){
-        return map;
     }
 
     //################## START Authentication methods ##################//

@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, FriendsListActivity.class);
                 startActivity(i);
-                Toast.makeText(MainActivity.this, "Friend button clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -132,32 +131,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, ManageAccountActivity.class);
             startActivity(i);
         });
-
-
-
-        // TODO: Implement below comment
-        // VILLIAM has to make his magic on this one so the map plots is added when database is updated
-       /*
-        btnFindAFriend = findViewById(R.id.btnFindAFriend);
-        btnFindAFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                do{
-                    currentLocation = getCurrentLocation();
-                } while (currentLocation == null);*//*
-                currentLocation = getCurrentLocation();
-                //getCurrentLocationCallback(); // Purely for testing
-
-                if(currentLocation != null) {
-                    List<Location> locations = new ArrayList<>();
-                    locations.add(currentLocation);
-                    mapsFragment.updateMap(locations);
-                    *//*viewModel.setUserLocation(currentLocation);
-                    viewModel.updateMap(viewModel.getMap());*//*
-                }
-            }
-        });
-        */
 
         viewModel.getFriendIdList().observe(this, users -> {viewModel.updateFriendList();});
         viewModel.getFriendList().observe(this, users -> {updateMap(users);});
@@ -179,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mapsFragment.updateMap(activeFriends);
-
-
     }
 
 
