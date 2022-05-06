@@ -28,4 +28,7 @@
 
     <string name="cancel">Cancel</string>
     <string name="joinHangout">Join Hangout!</string>
+    <string name="btnGoToAddFriends">AddFriends</string>
+    <string name="btnDelete">Delete</string>
+    <string name="btnUserDialogAdd">Add</string>
 </resources>

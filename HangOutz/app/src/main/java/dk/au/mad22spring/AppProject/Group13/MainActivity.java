@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     //UI widgets
     private Button logOutBtn, friendsBtn;
+    private Button logOutBtn, goToHangOutzBtn, btnGoToFriendsList;
     private EditText edtActivity;
     private Switch swtActive;
     private SeekBar skBarEnergy;
@@ -255,5 +256,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
+        btnGoToFriendsList = findViewById(R.id.btnGoToFriendsList);
+        btnGoToFriendsList.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, FriendsListActivity.class);
+            startActivity(i);
+        });
     }
 }

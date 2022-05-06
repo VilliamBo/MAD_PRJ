@@ -104,8 +104,8 @@ public class Repository {
         }
     }
 
-    public void getUsersFromId(Context context, MutableLiveData<ArrayList<User>> userList, ArrayList<String> userIdList){
-        db.getUsersFromId(context, userList, userIdList);
+    public void getUsersFromId(MutableLiveData<ArrayList<User>> userList, ArrayList<String> userIdList){
+        db.getUsersFromId(userList, userIdList);
     }
 
     // set and get methods for private "loggedInUserID" string
@@ -137,5 +137,9 @@ public class Repository {
     //method for webAPI
     public void getRandomImage(MutableLiveData<String> imgURL, Context context){
         api.getRandomImage(imgURL, context);
+    }
+
+    public void removeFriend(User friendClicked) {
+        db.removeFriend(loggedInUSerID, friendClicked);
     }
 }

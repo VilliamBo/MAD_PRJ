@@ -38,7 +38,7 @@ public class FriendsListAdaptor extends RecyclerView.Adapter<FriendsListAdaptor.
 
     //interface for when a Item is clicked
     public interface IFriendItemClickedListener {
-        void onFriendClicked(String id);
+        void onFriendClicked(User friendClicked);
     }
 
     private IFriendItemClickedListener friendListener;
@@ -110,7 +110,7 @@ public class FriendsListAdaptor extends RecyclerView.Adapter<FriendsListAdaptor.
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION){
                 User friendClicked = friends.get(position);
-                friendListener.onFriendClicked(friendClicked.id);
+                friendListener.onFriendClicked(friendClicked);
             }
         }
 
