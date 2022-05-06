@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, FriendsListActivity.class);
                 startActivity(i);
+                Toast.makeText(MainActivity.this, "Friend button clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
