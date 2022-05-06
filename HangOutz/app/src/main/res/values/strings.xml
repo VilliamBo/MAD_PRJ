@@ -31,4 +31,9 @@
     <string name="btnGoToAddFriends">Friends</string>
     <string name="btnDelete">Delete</string>
     <string name="btnUserDialogAdd">Add</string>
+    <string name="btnManageAccount">Manage Account</string>
+    <string name="btnDeleteAccount">Delete Account</string>
+    <string name="btnUpdateUser">Update User</string>
+    <string name="btnUpdateAccoutn">Update Account</string>
+    <string name="txtManageAccount">Manage Account</string>
 </resources>

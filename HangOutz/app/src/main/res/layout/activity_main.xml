@@ -7,6 +7,19 @@
     android:background="@drawable/login_background"
     tools:context=".LoginActivity">
 
+    <Button
+        android:id="@+id/btnGoToManageAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="116dp"
+        android:backgroundTint="@color/cardview_shadow_start_color"
+        android:text="@string/btnManageAccount"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/mapsView"
         android:layout_width="0dp"

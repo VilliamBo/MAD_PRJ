@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.au.mad22spring.AppProject.Group13.model.User;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.mainViewModel;
 
 public class MapsFragment extends Fragment {
@@ -48,11 +49,13 @@ public class MapsFragment extends Fragment {
             map = googleMap;
             viewModel.setMap(map);
 
+            /*
             if(friendLocations != null){
                 Log.d(Constants.DEBUG, "onMapReady: Calling updateMap from MapFragment" );
                 updateMap(friendLocations);
             }
 
+            /*
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(@NonNull Marker marker) {
@@ -61,6 +64,8 @@ public class MapsFragment extends Fragment {
                     return false;
                 }
             });
+
+             */
         }
     };
 
@@ -85,6 +90,7 @@ public class MapsFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(mainViewModel.class);
 
         // Observer to update location data when changes happen
+        /*
         viewModel.getFriendLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
             @Override
             public void onChanged(List<Location> locationList) {
@@ -93,10 +99,12 @@ public class MapsFragment extends Fragment {
             }
         });
 
+         */
+
         // TODO: Fix map boundaries.
     }
 
-    public void updateMap(List<Location> locationList) {
+    public void updateMap(List<User> friendList) {
 
         // TODO: Update when repo-function is made
         // Get all activity locations of the active users friends
@@ -107,29 +115,35 @@ public class MapsFragment extends Fragment {
         deleteMapMarkers();
 
         // Add all the updated markers.
-        if(viewModel.getFriendLocations() != null){
-            addFriendMarkers(locationList);
+        if(friendList != null){
+            addFriendMarkers(friendList);
         }
     }
 
-    private void addMarker(Location location) {
-        if(location != null){
+    private void addMarker(User user) {
+        if(user != null){
+            Location location = new Location("");
+            location.setLongitude(Double.parseDouble(user.longitude));
+            location.setLatitude(Double.parseDouble(user.latitude));
             LatLng friendLocation = new LatLng(location.getLatitude(), location.getLongitude());
             Log.d(Constants.DEBUG, "MapsFragment addMarker: " + friendLocation);
 
             if(map != null){
                 Log.d(Constants.DEBUG, "addMarker: map != null");
-                map.addMarker(new MarkerOptions().position(friendLocation).title("Some information about who put it up").snippet("Information about this activity here"));
+                map.addMarker(new MarkerOptions().position(friendLocation).title(user.name).snippet("Energy " + user.energy + "%\n" + user.activity));
                 //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             }
         }
     }
 
-    private void addFriendMarkers(List<Location> locations) {
-        for(Location location : locations){
-            if(location != null) {
-                //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                addMarker(location);
+    private void addFriendMarkers(List<User> friends) {
+        int i = 0;
+        for(User u : friends){
+            if(u != null) {
+                // TODO: remove fixed latitude
+                u.latitude=String.valueOf(Double.parseDouble(u.latitude+i));
+                u.longitude=String.valueOf(Double.parseDouble(u.longitude+i));
+                addMarker(u);
             }
         }
     }

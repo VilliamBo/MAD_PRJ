@@ -41,9 +41,9 @@ public class Repository {
     public void getUser(String userId, MutableLiveData<User> user){
         db.getUser(userId, user);
     }
-    public void setUserLocation(String localUserId, String location1, String location2){
+    public void setUserLocation(String localUserId, String latitude, String longitude){
         if(loggedInUSerID != null) {
-            db.setUserLocation(loggedInUSerID, location1, location2);
+            db.setUserLocation(loggedInUSerID, latitude, longitude);
         }
         else{
             Log.d(TAG, "setUserLocation: Couldn't set userLocation - loggedInUserID = null");
@@ -89,13 +89,14 @@ public class Repository {
     public void deleteAccount(String userId){
         if(loggedInUSerID != null) {
             db.deleteUser(loggedInUSerID);
+            mAuth.mAuth.getCurrentUser().delete();
         }
         else{
             Log.d(TAG, "deleteUser: Couldn't delete user - loggedInUserID = null");
         }
     }
 
-    public void getFriendsId(String localUserID, MutableLiveData<ArrayList<String>> friendsIdList){
+    public void getFriendsId(MutableLiveData<ArrayList<String>> friendsIdList){
         if(loggedInUSerID != null) {
             db.getFriendsId(loggedInUSerID, friendsIdList);
         }
@@ -132,8 +133,6 @@ public class Repository {
         db.setActive(loggedInUSerID, state);
     }
 
-
-
     //method for webAPI
     public void getRandomImage(MutableLiveData<String> imgURL, Context context){
         api.getRandomImage(imgURL, context);
@@ -141,5 +140,9 @@ public class Repository {
 
     public void removeFriend(User friendClicked) {
         db.removeFriend(loggedInUSerID, friendClicked);
+    }
+
+    public void updateUser(String name) {
+        db.setUserName(loggedInUSerID, name);
     }
 }

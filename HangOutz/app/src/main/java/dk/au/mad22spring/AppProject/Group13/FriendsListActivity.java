@@ -86,12 +86,7 @@ public class FriendsListActivity extends AppCompatActivity implements FriendsLis
     }
 
     private void updateAdapter(ArrayList<User> friends) {
-        ArrayList<User> activeFriends = new ArrayList<User>();
-        for(User u : friends){
-            if(u.active)
-                activeFriends.add(u);
-        }
-        adaptor.setData(activeFriends);
+        adaptor.setData(friends);
         adaptor.notifyDataSetChanged();
     }
 

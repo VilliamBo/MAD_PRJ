@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,6 +22,7 @@ import dk.au.mad22spring.AppProject.Group13.Constants;
 import dk.au.mad22spring.AppProject.Group13.R;
 import dk.au.mad22spring.AppProject.Group13.model.Authentication;
 import dk.au.mad22spring.AppProject.Group13.model.Repository;
+import dk.au.mad22spring.AppProject.Group13.model.User;
 
 public class mainViewModel extends AndroidViewModel {
 
@@ -32,6 +34,9 @@ public class mainViewModel extends AndroidViewModel {
 
     private MutableLiveData<FirebaseUser> userLiveData;
     private MutableLiveData<Boolean> loggedOutLiveData;
+    private MutableLiveData<ArrayList<User>> friendList;
+    private MutableLiveData<ArrayList<String>> friendIdList;
+
 
     // Constructor
     public mainViewModel(@NonNull Application application) {
@@ -51,6 +56,7 @@ public class mainViewModel extends AndroidViewModel {
         authentication = new Authentication();
         userLiveData = authentication.getUserLiveData();
         loggedOutLiveData = authentication.getLoggedOutLiveData();
+        linkFriendIdListToDatabase();
 
         //friendLocations = getFriendLocations();
     }
@@ -192,6 +198,31 @@ public class mainViewModel extends AndroidViewModel {
 
     public void setActive(Boolean state){
         repository.setActive(state);
+    }
+
+    public MutableLiveData<ArrayList<User>> getFriendList(){
+        if(friendList == null) {
+            friendList = new MutableLiveData<ArrayList<User>>();
+            friendList.setValue(new ArrayList<>());
+        }
+        return friendList;
+    }
+
+    public MutableLiveData<ArrayList<String>> getFriendIdList(){
+        if(friendIdList == null) {
+            friendIdList = new MutableLiveData<ArrayList<String>>();
+            friendIdList.setValue(new ArrayList<>());
+        }
+        return friendIdList;
+    }
+
+    public void updateFriendList() {
+        repository.getUsersFromId(getFriendList(), getFriendIdList().getValue());
+    }
+
+    //Links Friend id list to friend.child(userid). if it updates
+    private void linkFriendIdListToDatabase(){
+        repository.getFriendsId(getFriendIdList());
     }
     //################## END Repository methods ######################//
 }

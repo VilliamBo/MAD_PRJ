@@ -6,15 +6,12 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,28 +20,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import dk.au.mad22spring.AppProject.Group13.model.BBCharacter;
+import dk.au.mad22spring.AppProject.Group13.model.User;
 import dk.au.mad22spring.AppProject.Group13.service.FriendActivityNotificationService;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.mainViewModel;
 
@@ -56,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private mainViewModel viewModel;
 
     //UI widgets
-    private Button logOutBtn, friendsBtn;
+    private Button logOutBtn, friendsBtn, btnManageAccount;
     private EditText edtActivity;
     private Switch swtActive;
     private SeekBar skBarEnergy;
@@ -143,16 +127,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnManageAccount = findViewById(R.id.btnGoToManageAccount);
+        btnManageAccount.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, ManageAccountActivity.class);
+            startActivity(i);
+        });
+
 
 
         // TODO: Implement below comment
         // VILLIAM has to make his magic on this one so the map plots is added when database is updated
-
-        /*btnFindAFriend = findViewById(R.id.btnFindAFriend);
+       /*
+        btnFindAFriend = findViewById(R.id.btnFindAFriend);
         btnFindAFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                *//*do{
+                do{
                     currentLocation = getCurrentLocation();
                 } while (currentLocation == null);*//*
                 currentLocation = getCurrentLocation();
@@ -166,10 +156,31 @@ public class MainActivity extends AppCompatActivity {
                     viewModel.updateMap(viewModel.getMap());*//*
                 }
             }
-        });*/
+        });
+        */
+
+        viewModel.getFriendIdList().observe(this, users -> {viewModel.updateFriendList();});
+        viewModel.getFriendList().observe(this, users -> {updateMap(users);});
+
 
         //setup location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    }
+
+    private void updateMap(ArrayList<User> friends) {
+        ArrayList<User> activeFriends = new ArrayList<>();
+        int i = 0;
+        for(User u : friends){
+            if(u.active) {
+                activeFriends.add(u);
+                i++;
+            }
+
+        }
+
+        mapsFragment.updateMap(activeFriends);
+
+
     }
 
 

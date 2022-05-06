@@ -19,7 +19,6 @@ public class FriendsListViewModel extends AndroidViewModel {
     private MutableLiveData<String> searchFilter;
 
     //################### TEST VARIABLE ##################################
-    private String localUserId = "1234";
     private MutableLiveData<ArrayList<String>> friendIdList;
     private MutableLiveData<ArrayList<User>> observedFriendList;
     //####################################################################
@@ -67,7 +66,7 @@ public class FriendsListViewModel extends AndroidViewModel {
 
     //Links Friend id list to friend.child(userid). if it updates 
     private void linkFriendIdListToDatabase(){
-        repository.getFriendsId(localUserId, getFriendIdList());
+        repository.getFriendsId(getFriendIdList());
     }
 
     public void removeFriend(User friendClicked) {
