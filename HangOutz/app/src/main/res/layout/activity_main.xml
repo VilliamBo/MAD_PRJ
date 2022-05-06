@@ -11,14 +11,14 @@
         android:id="@+id/btnGoToManageAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="116dp"
         android:backgroundTint="@color/cardview_shadow_start_color"
         android:text="@string/btnManageAccount"
         android:textColor="@color/white"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnGoToFriendsList"
+        app:layout_constraintEnd_toStartOf="@+id/logOutBtn"
+        app:layout_constraintStart_toEndOf="@+id/btnGoToFriendsList"
+        app:layout_constraintTop_toTopOf="@+id/btnGoToFriendsList" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/mapsView"
@@ -61,7 +61,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/cardview_shadow_start_color"
-        android:text="Friends"
+        android:text="@string/btnGoToFriendsList"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -81,19 +81,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:text="Energy barometer"
+        android:text="@string/txtEnergybar"
         android:textColor="@color/white"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/skBarEnergy"
         app:layout_constraintEnd_toEndOf="@+id/skBarEnergy"
-        app:layout_constraintStart_toStartOf="@+id/skBarEnergy" />
+        app:layout_constraintStart_toStartOf="@+id/skBarEnergy"
+        app:layout_constraintTop_toTopOf="@+id/swtActive" />
 
     <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_width="356dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="363dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -106,7 +107,7 @@
                 android:id="@+id/edtActivity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="What are you up to?"
+                android:hint="@string/edtActivity"
                 android:textColor="@color/white" />
 
         </LinearLayout>
@@ -120,7 +121,7 @@
         android:layout_marginBottom="20dp"
         android:drawableLeft="@drawable/ic_baseline_location_on_24"
         android:minHeight="48dp"
-        android:text="Location"
+        android:text="@string/swtActive"
         android:textColor="@color/white"
         android:textSize="18dp"
         android:textStyle="bold"

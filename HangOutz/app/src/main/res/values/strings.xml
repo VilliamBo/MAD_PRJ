@@ -36,4 +36,12 @@
     <string name="btnUpdateUser">Update User</string>
     <string name="btnUpdateAccoutn">Update Account</string>
     <string name="txtManageAccount">Manage Account</string>
+    <string name="edtActivity">What are you up to?</string>
+    <string name="swtActive">Location</string>
+    <string name="txtEnergybar">Energy Level</string>
+    <string name="btnGoToFriendsList">Friends</string>
+    <string name="loginHeaderTxtView">Sign In</string>
+    <string name="loginFBTxt">Or sign in with</string>
+    <string name="txtFriendsList">YOUR FRIENDS</string>
+    <string name="edtSearchUser">Friend User ID</string>
 </resources>
