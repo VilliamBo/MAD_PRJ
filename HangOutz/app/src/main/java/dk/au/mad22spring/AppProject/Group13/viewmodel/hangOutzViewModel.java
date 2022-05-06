@@ -31,6 +31,7 @@ public class hangOutzViewModel extends AndroidViewModel {
 
     private Authentication auth;
     private Repository repo;
+    private GoogleMap map;
     private MutableLiveData<List<Location>> friendLocations;
     private MutableLiveData<FirebaseUser> userLiveData; // Delete if not needed
     private MutableLiveData<Boolean> loggedOutLiveData; // Delete if not needed
@@ -39,20 +40,18 @@ public class hangOutzViewModel extends AndroidViewModel {
     public hangOutzViewModel(@NonNull Application application) {
         super(application);
 
-        // Purely for testing
+        // Purely for testing... createTestLocations() causes me to not be able to create the viewModel
         if(friendLocations == null){
-            createTestLocations();
-
+            friendLocations = new MutableLiveData<>();
+            //createTestLocations();
         }
 
         repo = Repository.getInstance();
-        // TODO: Ask if below setup is correct.
         auth = new Authentication();
         userLiveData = auth.getUserLiveData();
         loggedOutLiveData = auth.getLoggedOutLiveData();
 
         //friendLocations = getFriendLocations();
-
 
     }
 
@@ -61,23 +60,35 @@ public class hangOutzViewModel extends AndroidViewModel {
 
         // TODO: Update when repo-function is made
         // Get all activity locations of the active users friends
-        friendLocations = getFriendLocations();
+        //friendLocations = getFriendLocations();
+
 
         // Delete all markers = No dupes & old markers.
         deleteMapMarkers(googleMap);
         // Add all the updated markers.
-        addFriendMarkers(friendLocations.getValue(),googleMap);
+        if(friendLocations.getValue() != null){
+            addFriendMarkers(friendLocations.getValue(),googleMap);
+        }
+    }
+
+    public void setUserLocation(Location userLocation) {
+        String userId = auth.getUserLiveData().getValue().getUid();
+        String latitude = String.valueOf(userLocation.getLatitude());
+        String longitude = String.valueOf(userLocation.getLongitude());
+
+        repo.setUserLocation(userId,latitude, longitude);
+        friendLocations.getValue().add(userLocation); // Purely for testing
     }
 
     public MutableLiveData<List<Location>> getFriendLocations() {
-        return null;
+        return friendLocations;
         //return repo.getFriendLocations(); // Doesn't exist yet.
     }
 
     private void addMarker(Location location, GoogleMap googleMap) {
         if(location != null){
             LatLng friendLocation = new LatLng(location.getLatitude(), location.getLongitude());
-            Log.d(Constants.DEBUG, "addMarker: " + friendLocation);
+            Log.d(Constants.DEBUG, "Hangoutz addMarker: " + friendLocation);
 
             if(googleMap != null){
                 Log.d(Constants.DEBUG, "addMarker: mMap != null");
@@ -114,7 +125,7 @@ public class hangOutzViewModel extends AndroidViewModel {
         AlertDialog.Builder builder = new AlertDialog.Builder(getApplication().getApplicationContext())
                 //.setIcon()
                 //.setMessage(auth.getUserLiveData().getValue().getActivity() + "\n Energy Level: " + userLiveData.getValue().getEnergyLevel() + "%")
-                .setTitle("Hangout with " + auth.getUserLiveData().getValue().getDisplayName())
+                .setTitle("Hangout with " + auth.getUserLiveData().getValue().getDisplayName()) // TODO: Change to get friends display name
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -136,7 +147,7 @@ public class hangOutzViewModel extends AndroidViewModel {
     }
 
     // This method is purely for testing
-    private void createTestLocations() {
+    public void createTestLocations() {
         Location Randers = new Location("Randers");
         Randers.setLatitude(56.4586);
         Randers.setLongitude(10.0402);
@@ -157,5 +168,13 @@ public class hangOutzViewModel extends AndroidViewModel {
         friendLocations.getValue().add(Aarhus);
         friendLocations.getValue().add(Miami);
         friendLocations.getValue().add(London);
+    }
+
+    public void setMap(GoogleMap googleMap) {
+        map = googleMap;
+    }
+
+    public GoogleMap getMap(){
+        return map;
     }
 }

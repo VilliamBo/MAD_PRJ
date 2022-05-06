@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,9 +42,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import dk.au.mad22spring.AppProject.Group13.model.BBCharacter;
+import dk.au.mad22spring.AppProject.Group13.viewmodel.hangOutzViewModel;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.mainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,20 +55,26 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private mainViewModel viewModel;
+    //private hangOutzViewModel vm; // Purely for testing
 
     //UI widgets
     private Button logOutBtn, fetchButton;
 
     private Button goToHangOutzBtn; // for developing
+    private Button btnFindAFriend; // FOR DEBUGGING ONLY
 
     private TextView loggedInUserText;
     private ImageView BBCharImg;
 
     // Location Variables
     private FusedLocationProviderClient fusedLocationClient;
+    private com.google.android.gms.location.LocationRequest googleLocationRequest;
+    private LocationRequest androidLocationRequest;
+    private LocationCallback locationCallback;
     private Location lastKnownLocation = null;
     private Location currentLocation = null;
     private Boolean noLocation = false;
+    private MapsFragment mapsFragment;
 
     //API variables
     private RequestQueue myRequestQueue;
@@ -73,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //vm = new ViewModelProvider(this).get(hangOutzViewModel.class); // FOR TESTING
+
 
         viewModel = new ViewModelProvider(this).get(mainViewModel.class);
         viewModel.getUserLiveData().observe(this, new Observer<FirebaseUser>() {
@@ -103,9 +119,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupMap(Bundle savedInstanceState) {
+        mapsFragment = new MapsFragment();
+
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.mapsContainer, new MapsFragment())
+                    .replace(R.id.mapsContainer, mapsFragment)
                     .commitNow();
         }
     }
@@ -145,16 +163,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // TODO: Implement below comment
-        /* Add Button for "Find A friend"
-        * When clicked call -> getCurrentLocation() until Location != null
-        *
-        * do {
-        *     currentLocation = getCurrentLocation();
-        * } while (currentLocation == null);
-        *
-        * Then call viewModel.setUserLocation(), which calls repo.setUserLocation().
-         */
+        // Purely for testing
+        btnFindAFriend = findViewById(R.id.btnFindAFriend);
+        btnFindAFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*do{
+                    currentLocation = getCurrentLocation();
+                } while (currentLocation == null);*/
+                currentLocation = getCurrentLocation();
+                //getCurrentLocationCallback(); // Purely for testing
 
+                if(currentLocation != null) {
+                    List<Location> locations = new ArrayList<>();
+                    locations.add(currentLocation);
+                    mapsFragment.updateMap(locations);
+                    /*viewModel.setUserLocation(currentLocation);
+                    viewModel.updateMap(viewModel.getMap());*/
+                }
+            }
+        });
 
         setupLocationFramework();
     }
@@ -196,6 +224,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupLocationFramework() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                if(locationResult == null){
+                    Log.d(TAG, "onLocationResult: NULL");
+                    return;
+                } else {
+                    for (Location location : locationResult.getLocations()){
+                        Log.d(TAG, "onLocationResult: " + location.toString());
+                        currentLocation = location;
+
+                        if(fusedLocationClient != null){
+                            fusedLocationClient.removeLocationUpdates(locationCallback);
+                        }
+                    }
+                }
+            }
+        };
     }
 
     // https://developer.android.com/training/location/request-updates#java
@@ -223,6 +272,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return lastKnownLocation;
         }
+    }
+
+    //BELOW IS FOR TESTING
+    private void getCurrentLocationCallback() {
+
+        // Check to see if permissions have been granted. If not request the permissions
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_CODE);;
+        }
+
+        fusedLocationClient.requestLocationUpdates(googleLocationRequest,locationCallback, Looper.getMainLooper());
     }
 
     // https://developer.android.com/training/location/retrieve-current

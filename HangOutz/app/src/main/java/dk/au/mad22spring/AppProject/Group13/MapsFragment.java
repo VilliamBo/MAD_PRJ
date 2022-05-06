@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import dk.au.mad22spring.AppProject.Group13.viewmodel.hangOutzViewModel;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.mainViewModel;
@@ -30,6 +33,7 @@ public class MapsFragment extends Fragment {
 
     private hangOutzViewModel viewModel;
     private GoogleMap map;
+    private List<Location> friendLocations;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -46,7 +50,21 @@ public class MapsFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
 
             map = googleMap;
-            viewModel.updateMap(map);
+            viewModel.setMap(map);
+
+            if(friendLocations != null){
+                Log.d(Constants.DEBUG, "onMapReady: Calling updateMap from MapFragment" );
+                updateMap(friendLocations);
+            }
+
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(@NonNull Marker marker) {
+                    viewModel.showDialogue(marker);
+                    // TODO: Implement a dialog pop-up
+                    return false;
+                }
+            });
         }
     };
 
@@ -66,25 +84,60 @@ public class MapsFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+
+        friendLocations = new ArrayList<>();
         viewModel = new ViewModelProvider(this).get(hangOutzViewModel.class);
 
         // Observer to update location data when changes happen
         viewModel.getFriendLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
             @Override
             public void onChanged(List<Location> locationList) {
-                viewModel.updateMap(map);
+                friendLocations = locationList;
+                updateMap(friendLocations);
             }
         });
 
-        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                                         @Override
-                                         public boolean onMarkerClick(@NonNull Marker marker) {
-                                             viewModel.showDialogue(marker);
-                                             // TODO: Implement a dialog pop-up
-                                             return false;
-                                         }
-                                     });
-
         // TODO: Fix map boundaries.
+    }
+
+    public void updateMap(List<Location> locationList) {
+
+        // TODO: Update when repo-function is made
+        // Get all activity locations of the active users friends
+        //friendLocations = getFriendLocations();
+
+        // Delete all markers = No dupes & old markers.
+        deleteMapMarkers();
+        // Add all the updated markers.
+        if(viewModel.getFriendLocations() != null){
+            addFriendMarkers(locationList);
+        }
+    }
+
+    private void addMarker(Location location) {
+        if(location != null){
+            LatLng friendLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            Log.d(Constants.DEBUG, "MapsFragment addMarker: " + friendLocation);
+
+            if(map != null){
+                Log.d(Constants.DEBUG, "addMarker: map != null");
+                map.addMarker(new MarkerOptions().position(friendLocation).title("Some information about who put it up").snippet("Information about this activity here"));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            }
+        }
+    }
+
+    private void addFriendMarkers(List<Location> locations) {
+        for(Location location : locations){
+            if(location != null) {
+                //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                addMarker(location);
+            }
+        }
+    }
+
+    private void deleteMapMarkers() {
+        // Deletes all map markers, etc.
+        map.clear();
     }
 }
