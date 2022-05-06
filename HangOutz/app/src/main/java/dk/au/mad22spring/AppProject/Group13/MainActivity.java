@@ -135,21 +135,9 @@ public class MainActivity extends AppCompatActivity {
         friendsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< Updated upstream
                 Intent i = new Intent(MainActivity.this, FriendsListActivity.class);
                 startActivity(i);
-=======
                 Toast.makeText(MainActivity.this, "Friend button clicked", Toast.LENGTH_SHORT).show();
-
-                // For development
-                currentLocation = getCurrentLocation();
-
-                if(currentLocation != null){
-                    List<Location> locations = new ArrayList<>();
-                    locations.add(currentLocation);
-                    mapsFragment.updateMap(locations);
-                }
->>>>>>> Stashed changes
             }
         });
 
