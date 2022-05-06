@@ -25,4 +25,7 @@
     <string name="btnBack">Back</string>
     <string name="btnAddFriend">Add Friend</string>
     <string name="generateNewUserImage">Random image</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="joinHangout">Join Hangout!</string>
 </resources>

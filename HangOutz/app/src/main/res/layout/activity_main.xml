@@ -7,6 +7,27 @@
     android:background="@drawable/login_background"
     tools:context=".LoginActivity">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mapsView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/swtActive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToFriendsList">
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mapsContainer"
+            android:name="dk.au.mad22spring.AppProject.Group13.MapsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
     <Button
         android:id="@+id/logOutBtn"
         android:layout_width="wrap_content"
@@ -18,17 +39,6 @@
         android:backgroundTint="@color/cardview_shadow_start_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/goToHOBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="GoToHangOutz"
-        android:backgroundTint="@color/cardview_shadow_start_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnGoToFriendsList"
@@ -97,6 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
+        android:thumbTint="@color/white"
         android:text="Location"
         android:textColor="@color/white"
         android:textStyle="bold"
