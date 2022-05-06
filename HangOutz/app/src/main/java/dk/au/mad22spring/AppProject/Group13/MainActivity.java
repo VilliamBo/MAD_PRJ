@@ -56,14 +56,12 @@ public class MainActivity extends AppCompatActivity {
 
     //UI widgets
     private Button logOutBtn, friendsBtn;
-    private Button logOutBtn, goToHangOutzBtn, btnGoToFriendsList;
     private EditText edtActivity;
     private Switch swtActive;
     private SeekBar skBarEnergy;
 
     // Location Variables
     private FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback locationCallback;
     private Location lastKnownLocation = null;
     private Location currentLocation = null;
     private Boolean noLocation = false;
@@ -137,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
         friendsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Friend button clicked", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(MainActivity.this, FriendsListActivity.class);
+                startActivity(i);
             }
         });
 
@@ -256,10 +255,5 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-        btnGoToFriendsList = findViewById(R.id.btnGoToFriendsList);
-        btnGoToFriendsList.setOnClickListener(view -> {
-            Intent i = new Intent(MainActivity.this, FriendsListActivity.class);
-            startActivity(i);
-        });
     }
 }
