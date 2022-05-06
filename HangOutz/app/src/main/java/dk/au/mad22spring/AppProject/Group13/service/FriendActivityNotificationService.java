@@ -11,17 +11,22 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.LifecycleService;
+import androidx.lifecycle.MutableLiveData;
 
 //import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import dk.au.mad22spring.AppProject.Group13.R;
 import dk.au.mad22spring.AppProject.Group13.model.Repository;
+import dk.au.mad22spring.AppProject.Group13.model.User;
 
 //Foreground service
-public class FriendActivityNotificationService extends Service {
+public class FriendActivityNotificationService extends LifecycleService {
 
 
 
@@ -35,8 +40,13 @@ public class FriendActivityNotificationService extends Service {
     private static final String NOTIFICATION_CHANNEL = "notification_channel";
     private boolean started = false;
     private ExecutorService exeService;
-    //Repository to communicate with Firebase database
     private Repository repository;
+    private User friendToPrint;
+    private Random rand;
+
+    private MutableLiveData<ArrayList<String>> friendIdList;
+    private MutableLiveData<ArrayList<User>> friendList;
+    private ArrayList<User> activeFriends;
 
 
     public FriendActivityNotificationService() {
@@ -50,7 +60,7 @@ public class FriendActivityNotificationService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        //super.onBind(intent);
+        super.onBind(intent);
         return null;
     }
 
@@ -60,6 +70,30 @@ public class FriendActivityNotificationService extends Service {
         super.onStartCommand(intent, flags, startId);
 
         createNotificationChannel();
+
+        rand = new Random();
+
+        if(friendIdList == null) {
+            friendIdList = new MutableLiveData<>();
+            friendIdList.setValue(new ArrayList<>());
+        }
+        if(friendList == null) {
+            friendList = new MutableLiveData<ArrayList<User>>();
+            friendList.setValue(new ArrayList<>());
+        }
+
+
+        //Link to database
+        repository.getFriendsId(friendIdList);
+
+        friendIdList.observe(this, users -> {updateFriendList();});
+        friendList.observe(this, users -> {
+            activeFriends = new ArrayList<>();
+            for(User u: users) {
+                if(u.active)
+                    activeFriends.add(u);
+            }
+        });
 
         Notification notification = new NotificationCompat.Builder(FriendActivityNotificationService.this, SERVICE_CHANNEL)
                 .setContentTitle("Welcome to the HangOutz app!") //Runs in background but is visible to user
@@ -91,16 +125,19 @@ public class FriendActivityNotificationService extends Service {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(30000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     Log.e(TAG, "run error: ", e);
                 }
 
-                if (repository.getLoggedInUserID() != null){
+                if ((repository.getLoggedInUserID() != null) && (activeFriends.size() > 0)){
+                    int index = rand.nextInt(activeFriends.size());
+                    Log.d(TAG, "Notification. random number selected = " + index);
+                    Log.d(TAG, "Notification. size = " + activeFriends.size());
                     Notification notification = new NotificationCompat.Builder(FriendActivityNotificationService.this, SERVICE_CHANNEL)
-                            .setContentTitle("Hang OUT!!") //Runs in background but is visible to user
-                            .setContentText("Your friend User "+counter + " is doing ACTIVITY")
+                            .setContentTitle("HangOutz!") //Runs in background but is visible to user
+                            .setContentText(activeFriends.get(index).name + " - \"" + activeFriends.get(index).activity + "\"")
                             .setSmallIcon(R.drawable.ic_baseline_person_outline_24)
                             .setChannelId(NOTIFICATION_CHANNEL)
                             .setChannelId(NOTIFICATION_CHANNEL)
@@ -135,6 +172,11 @@ public class FriendActivityNotificationService extends Service {
             nm.createNotificationChannel(channel);
         }
     }
+
+    public void updateFriendList() {
+        repository.getUsersFromId(friendList, friendIdList.getValue());
+    }
+
 
     @Override
     public void onDestroy() {
