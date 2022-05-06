@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.au.mad22spring.AppProject.Group13.model.BBCharacter;
+import dk.au.mad22spring.AppProject.Group13.service.FriendActivityNotificationService;
 import dk.au.mad22spring.AppProject.Group13.viewmodel.mainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupMap(savedInstanceState);
         setupUI();
+        startNotificationService();
     }
 
     private void setupMap(Bundle savedInstanceState) {
@@ -256,5 +258,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
+    }
+    private void startNotificationService() {
+        Intent NotificationServiceIntent = new Intent(MainActivity.this, FriendActivityNotificationService.class);
+        startService(NotificationServiceIntent);
     }
 }
