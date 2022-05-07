@@ -37,6 +37,8 @@ public class mainViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<User>> friendList;
     private MutableLiveData<ArrayList<String>> friendIdList;
 
+    private MutableLiveData<User> localUserLiveData;
+
     // Constructor
     public mainViewModel(@NonNull Application application) {
         super(application);
@@ -142,6 +144,18 @@ public class mainViewModel extends AndroidViewModel {
 
     public void updateFriendList() {
         repository.getUsersFromId(getFriendList(), getFriendIdList().getValue());
+    }
+
+    // For location ON/OFF state
+    public MutableLiveData<User> getLocalUserLiveData() {
+        if(localUserLiveData == null){
+            localUserLiveData = new MutableLiveData<>();
+        }
+        return localUserLiveData;
+    }
+
+    public void getLocalUser(){
+        repository.getLocalUser(localUserLiveData);
     }
 
     //Links Friend id list to friend.child(userid). if it updates

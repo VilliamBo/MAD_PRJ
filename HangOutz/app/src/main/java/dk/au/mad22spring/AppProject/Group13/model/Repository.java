@@ -109,6 +109,10 @@ public class Repository {
         db.getUsersFromId(userList, userIdList);
     }
 
+    public void getLocalUser(MutableLiveData<User> localUser){
+        db.getUserByID(localUser, loggedInUSerID);
+    }
+
     // set and get methods for private "loggedInUserID" string
     public String getLoggedInUserID(){
         if(loggedInUSerID == null) {

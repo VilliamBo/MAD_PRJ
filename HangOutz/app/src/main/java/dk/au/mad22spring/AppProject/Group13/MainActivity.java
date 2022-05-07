@@ -71,9 +71,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        viewModel.getLocalUserLiveData().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                swtActive.setChecked(user.active);
+            }
+        });
+
         setupMap(savedInstanceState);
         setupUI();
         startNotificationService();
+        viewModel.getLocalUser(); // Request current user
     }
 
     private void setupMap(Bundle savedInstanceState) {
@@ -113,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
                 if(swtActive.isChecked()){
                     viewModel.setActivity(edtActivity.getText().toString());
                     viewModel.setEnergy(skBarEnergy.getProgress());
+
+                    // START TIMER
+                }
+                else{
+                    // STOP TIMER
                 }
             }
         });
@@ -138,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
         //setup location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
     }
 
     private void updateMap(ArrayList<User> friends) {

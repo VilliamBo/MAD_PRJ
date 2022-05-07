@@ -95,6 +95,19 @@ public class FirebaseDB {
         });
     }
 
+    public void getUserByID(MutableLiveData<User> currentUser, String localUserID){
+        userCloudEndPoint.child(localUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                currentUser.postValue(snapshot.getValue(User.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
     public void getFriendsId(String localUserID, MutableLiveData<ArrayList<String>> friendsIdList){
         friendsCloudEndPoint.child(localUserID).addValueEventListener(new ValueEventListener() {
             @Override
