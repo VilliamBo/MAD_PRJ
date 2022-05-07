@@ -32,10 +32,8 @@ public class FriendsAddActivity extends AppCompatActivity implements FriendsList
     private FriendsAddViewModel vm;
 
     //UI widgets
-    private Button btnBack, btnAddFriend;
+    private Button btnBack;
     private EditText edtSearchUser;
-
-    private String localUserId = "1234";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +93,6 @@ public class FriendsAddActivity extends AppCompatActivity implements FriendsList
 
     private void setupUI() {
         btnBack = findViewById(R.id.btnBack);
-        btnAddFriend = findViewById(R.id.btnAddFriend);
 
         edtSearchUser = findViewById(R.id.edtSearchUser);
         edtSearchUser.setText("");

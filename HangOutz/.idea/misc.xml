@@ -32,14 +32,18 @@
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_authentication.xml" value="0.35052083333333334" />
+        <entry key="app/src/main/res/layout/activity_friends_add.xml" value="0.4505208333333333" />
         <entry key="app/src/main/res/layout/activity_friends_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_hang_outz.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.42845035129123266" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3602374606662326" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.11388888888888889" />
+        <entry key="app/src/main/res/layout/activity_manage_account.xml" value="0.4505208333333333" />
         <entry key="app/src/main/res/layout/activity_register_user.xml" value="0.18020833333333333" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.19880421956380206" />
+        <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.4505208333333333" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.1900090535481771" />
+        <entry key="app/src/main/res/layout/friend_clicked_dialog.xml" value="0.4505208333333333" />
       </map>
     </option>
   </component>

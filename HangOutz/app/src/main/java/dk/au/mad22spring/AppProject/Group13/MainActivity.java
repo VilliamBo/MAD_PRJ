@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(User user) {
                 swtActive.setChecked(user.active);
+                skBarEnergy.setProgress(user.energy);
+                edtActivity.setText(user.activity);
             }
         });
 

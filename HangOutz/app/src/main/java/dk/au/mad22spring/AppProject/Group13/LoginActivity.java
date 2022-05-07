@@ -34,8 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginBtn, registerNewBtn;
     private TextView userNameTxt, passwordTxt;
 
-    private Button checkBtn; // for developing
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,15 +75,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 login();
-            }
-        });
-
-        // for developing
-        checkBtn = findViewById(R.id.checkBtn);
-        checkBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "Current user ID: " + viewModel.getLoggedInUserID());
             }
         });
     }
