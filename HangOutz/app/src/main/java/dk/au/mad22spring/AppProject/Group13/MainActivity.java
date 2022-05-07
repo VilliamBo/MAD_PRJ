@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupMap(savedInstanceState);
         setupUI();
+        setupLocationHandler();
         startNotificationService();
         viewModel.getLocalUser(); // Request current user
     }
@@ -121,11 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 if(swtActive.isChecked()){
                     viewModel.setActivity(edtActivity.getText().toString());
                     viewModel.setEnergy(skBarEnergy.getProgress());
-
-                    // START TIMER
-                }
-                else{
-                    // STOP TIMER
                 }
             }
         });
@@ -148,10 +145,42 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getFriendIdList().observe(this, users -> {viewModel.updateFriendList();});
         viewModel.getFriendList().observe(this, users -> {updateMap(users);});
 
-
-        //setup location
+        // Setup location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+    }
+
+    // Location Handler to get user location every 5 seconds
+    // Inspired by: https://developer.android.com/reference/android/os/Handler
+    private void setupLocationHandler() {
+        final Handler handler = new Handler();
+        final int delay = 5000; // in milliseconds
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+                if(swtActive.isChecked()){
+
+                    currentLocation = getCurrentLocation();
+                    Log.d(TAG, "run: Current Location:" + currentLocation);
+
+                    if(currentLocation == null){
+                        lastKnownLocation = getLastLocation();
+                        Log.d(TAG, "run: Last Location:" + lastKnownLocation);
+
+                        if(lastKnownLocation != null){
+                            viewModel.setUserLocation(lastKnownLocation);
+                        }
+
+                    } else {
+                        viewModel.setUserLocation(currentLocation);
+                    }
+
+                    Log.d(TAG, "run: Handler Run: " + currentLocation);
+                    handler.postDelayed(this, delay);
+                }
+            }
+        }, delay);
     }
 
     private void updateMap(ArrayList<User> friends) {
@@ -167,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
 
         mapsFragment.updateMap(activeFriends);
     }
-
 
     // https://developer.android.com/training/location/request-updates#java
     // nice to have - saved for future work
@@ -249,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(Constants.DEBUG, "checkPermissions: PERMISSION_GRANTED");
                 } else {
                     Toast.makeText(this, "Location permissions need to be enabled to use this feature", Toast.LENGTH_LONG).show();
-                    finish();
                 }
                 return;
             }

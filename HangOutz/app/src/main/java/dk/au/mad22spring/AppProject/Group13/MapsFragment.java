@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -31,6 +32,7 @@ public class MapsFragment extends Fragment {
     private mainViewModel viewModel;
     private GoogleMap map;
     private List<Location> friendLocations;
+    private LatLng Denmark;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -38,24 +40,7 @@ public class MapsFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
 
             map = googleMap;
-
-            /*
-            if(friendLocations != null){
-                Log.d(Constants.DEBUG, "onMapReady: Calling updateMap from MapFragment" );
-                updateMap(friendLocations);
-            }
-
-            /*
-            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(@NonNull Marker marker) {
-                    viewModel.showDialogue(marker);
-                    // TODO: Implement a dialog pop-up
-                    return false;
-                }
-            });
-
-             */
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(Denmark,7F));
         }
     };
 
@@ -76,20 +61,9 @@ public class MapsFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
 
+        Denmark = new LatLng(56.2637, 9.5118);
         friendLocations = new ArrayList<>();
         viewModel = new ViewModelProvider(this).get(mainViewModel.class);
-
-        // Observer to update location data when changes happen
-        /*
-        viewModel.getFriendLocations().observe(getViewLifecycleOwner(), new Observer<List<Location>>() {
-            @Override
-            public void onChanged(List<Location> locationList) {
-                friendLocations = locationList;
-                updateMap(friendLocations);
-            }
-        });
-
-         */
     }
 
     public void updateMap(List<User> friendList) {
@@ -113,7 +87,7 @@ public class MapsFragment extends Fragment {
 
             if(map != null){
                 Log.d(Constants.DEBUG, "addMarker: map != null");
-                map.addMarker(new MarkerOptions().position(friendLocation).title(user.name).snippet("Energy " + user.energy + "% " + user.activity));
+                map.addMarker(new MarkerOptions().position(friendLocation).title("Hangout with " + user.name).snippet(user.activity + " | Energy " + user.energy + "%"));
             }
         }
     }
