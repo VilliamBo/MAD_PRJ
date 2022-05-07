@@ -47,7 +47,7 @@ public class ManageAccountActivity extends AppCompatActivity {
         btnUpdateAccount.setOnClickListener(view ->{
             String imgUrl = "";
             vm.updateUser(edtName.getText().toString());
-            Toast.makeText(this, "Account updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.accountUpdatedToast, Toast.LENGTH_SHORT).show();
             finish();
         });
     }

@@ -89,7 +89,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(RegisterUserActivity.this, "Registration canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterUserActivity.this, R.string.userRegistrationCanceledToast, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -124,7 +124,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                 regUsername.setError("Username cannot be empty");
                 regUsername.requestFocus();
             }else if(TextUtils.isEmpty(password)){
-                regPassword.setError("Username cannot be empty");
+                regPassword.setError("Password cannot be empty");
                 regPassword.requestFocus();
             }else if(TextUtils.isEmpty(confirmPassword) || !password.equals(confirmPassword)){
                 regConfirmPassword.setError("Passwords are not identical");

@@ -78,7 +78,7 @@ public class FriendsAddActivity extends AppCompatActivity implements FriendsList
 
         btnDelete.setOnClickListener(v -> {
             vm.addFriend(friendClicked.id);
-            Toast.makeText(this, friendClicked.name + "Added to friend list", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, friendClicked.name + R.string.addedToFriendslistToast, Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 

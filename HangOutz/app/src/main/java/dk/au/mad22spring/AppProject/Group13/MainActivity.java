@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(Boolean loggedOut) {
                 if(loggedOut){
-                    Toast.makeText(MainActivity.this, "User logged out", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.userLoggedOutToast, Toast.LENGTH_SHORT).show();
                     viewModel.setStatusAsLoggedOut(); // loggedInUserID = null
                     goToLoginScreen();
                 }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateMap(viewModel.getFriendList().getValue()); // added, but didn't work
+        //updateMap(viewModel.getFriendList().getValue()); // added, but didn't work
     }
 
     private void setupMap(Bundle savedInstanceState) {
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(Location location) {
                         lastKnownLocation = location;
                         if (location == null) {
-                            Toast.makeText(fusedLocationClient.getApplicationContext(), "No location was found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(fusedLocationClient.getApplicationContext(), R.string.noLocationFoundToast, Toast.LENGTH_SHORT).show();
                             noLocation = true;
                         }
                     }
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(Location location) {
                         currentLocation = location;
                         if (location == null) {
-                            Toast.makeText(fusedLocationClient.getApplicationContext(), "No location was found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(fusedLocationClient.getApplicationContext(), R.string.noLocationFoundToast, Toast.LENGTH_SHORT).show();
                             noLocation = true;
                         }
                     }
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.d(Constants.DEBUG, "checkPermissions: PERMISSION_GRANTED");
                 } else {
-                    Toast.makeText(this, "Location permissions need to be enabled to use this feature", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.locationPermissionToast, Toast.LENGTH_LONG).show();
                 }
                 return;
             }

@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">HangOutz</string>
-    <string name="title_activity_login2">LoginActivity2</string>
-    <string name="prompt_email">Email</string>
+    <string name="title_activity_login2" translatable="false">LoginActivity2</string>
+    <string name="prompt_email" translatable="false">E-mail</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">Welcome</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="login_failed">Login Failed</string>
     <string name="loginBtn">Login</string>
     <string name="regUserBtn">REGISTER</string>
     <string name="logOutBtn">Log Out</string>
@@ -18,23 +18,23 @@
     <string name="registerUserBtn">Register User</string>
     <string name="regUserTxtView">Register User</string>
     <string name="regUserNameTxt">UserName</string>
-    <string name="regEmailTxt">Email</string>
+    <string name="regEmailTxt">E-mail</string>
     <string name="regPasswordTxt">Password</string>
     <string name="regConPasswordTxt">Confirm password</string>
     <string name="notUserTxt">Not user yet?</string>
-    <string name="btnBack">Back</string>
+    <string name="btnBack">Return</string>
     <string name="btnAddFriend">Friend</string>
-    <string name="generateNewUserImage">Random image</string>
+    <string name="generateNewUserImage">New Image</string>
 
     <string name="cancel">Cancel</string>
-    <string name="joinHangout">Join Hangout!</string>
+    <string name="joinHangout" translatable="false">Join Hangout!</string>
     <string name="btnGoToAddFriends">Friends</string>
     <string name="btnDelete">Delete</string>
     <string name="btnUserDialogAdd">Add</string>
     <string name="btnManageAccount">Manage Account</string>
     <string name="btnDeleteAccount">Delete Account</string>
     <string name="btnUpdateUser">Update User</string>
-    <string name="btnUpdateAccoutn">Update Account</string>
+    <string name="btnUpdateAccount">Update Account</string>
     <string name="txtManageAccount">Manage Account</string>
     <string name="edtActivity">What are you up to?</string>
     <string name="swtActive">Location</string>
@@ -43,5 +43,17 @@
     <string name="loginHeaderTxtView">Sign In</string>
     <string name="loginFBTxt">Or sign in with</string>
     <string name="txtFriendsList">YOUR FRIENDS</string>
-    <string name="edtSearchUser">Friend User ID</string>
+    <string name="edtSearchUser">Search User ID</string>
+
+    <string name="userLoggedOutToast">User logged out</string>
+    <string name="noLocationFoundToast">No locations found</string>
+    <string name="locationPermissionToast">Location permissions need to be enabled to use this feature</string>
+    <string name="userRegistrationCanceledToast">Registration canceled</string>
+    <string name="noEmptyEmailToast">Email cannot be empty</string>
+    <string name="noEmptyUsernameToast">Username cannot be empty</string>
+    <string name="noEmptyPassToast">Password cannot be empty</string>
+    <string name="noEqualPassToast">Passwords are not identical</string>
+    <string name="accountUpdatedToast">Account updated</string>
+    <string name="addedToFriendslistToast"> added to friend list</string>
+
 </resources>
