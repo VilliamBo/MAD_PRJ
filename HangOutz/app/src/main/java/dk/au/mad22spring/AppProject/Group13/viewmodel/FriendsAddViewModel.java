@@ -56,8 +56,4 @@ public class FriendsAddViewModel extends AndroidViewModel {
     public void addFriend(String friendId) {
         repository.addFriend("", friendId);
     }
-    public void tis(String localId, String friendId) {
-        repository.addUser(new User("di", "d"));
-    }
-
 }
