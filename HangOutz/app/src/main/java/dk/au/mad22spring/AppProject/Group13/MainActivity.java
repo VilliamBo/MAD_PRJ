@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getLocalUser(); // Request current user
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateMap(viewModel.getFriendList().getValue()); // added, but didn't work
+    }
+
     private void setupMap(Bundle savedInstanceState) {
         mapsFragment = new MapsFragment();
 
@@ -179,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     Log.d(TAG, "run: Handler Run: " + currentLocation);
-                    handler.postDelayed(this, delay);
                 }
+                handler.postDelayed(this, delay);
             }
         }, delay);
     }

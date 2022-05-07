@@ -29,6 +29,16 @@
         <entry key="..\:/Users/jonat/OneDrive/Skrivebord/Studie/6. Semester/SWMAD/MAD_PRJ/MAD_PRJ/HangOutz/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/jonat/OneDrive/Skrivebord/Studie/6. Semester/SWMAD/MAD_PRJ/MAD_PRJ/HangOutz/app/src/main/res/layout/fragment_maps.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/drawable/ic_baseline_alternate_email_24.xml" value="0.225" />
+        <entry key="app/src/main/res/layout-land/activity_friends_add.xml" value="0.42792792792792794" />
+        <entry key="app/src/main/res/layout-land/activity_friends_list.xml" value="0.42792792792792794" />
+        <entry key="app/src/main/res/layout-land/activity_login.xml" value="0.580028328611898" />
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.5050669352213542" />
+        <entry key="app/src/main/res/layout-land/activity_manage_account.xml" value="0.42792792792792794" />
+        <entry key="app/src/main/res/layout-land/activity_register_user.xml" value="0.43072916666666666" />
+        <entry key="app/src/main/res/layout-land/fragment_maps.xml" value="0.42792792792792794" />
+        <entry key="app/src/main/res/layout-land/friend_clicked_dialog.xml" value="0.42792792792792794" />
+        <entry key="app/src/main/res/layout-land/friend_item.xml" value="0.42792792792792794" />
+        <entry key="app/src/main/res/layout-land/user_clicked_dialog.xml" value="0.42792792792792794" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_authentication.xml" value="0.35052083333333334" />
@@ -44,6 +54,8 @@
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.4505208333333333" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.1900090535481771" />
         <entry key="app/src/main/res/layout/friend_clicked_dialog.xml" value="0.4505208333333333" />
+        <entry key="app/src/main/res/layout/friend_item.xml" value="0.4505208333333333" />
+        <entry key="app/src/main/res/layout/user_clicked_dialog.xml" value="0.4505208333333333" />
       </map>
     </option>
   </component>

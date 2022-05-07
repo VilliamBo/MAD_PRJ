@@ -17,12 +17,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +77,8 @@ public class FriendsListAdaptor extends RecyclerView.Adapter<FriendsListAdaptor.
         }
         */
         User user = friends.get(position);
-        holder.txtFriendId.setText(user.id);
         holder.txtFriendName.setText(user.name);
+        Glide.with(holder.userImage.getContext()).load(user.imgUrl).into(holder.userImage);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             holder.friendItem.setElevation(10);
@@ -93,14 +96,15 @@ public class FriendsListAdaptor extends RecyclerView.Adapter<FriendsListAdaptor.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         //FriendList item widgets
-        public TextView txtFriendName, txtFriendId;
+        public TextView txtFriendName;
         public CardView friendItem;
+        public ImageView userImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             friendItem = itemView.findViewById(R.id.friendItem);
             txtFriendName = itemView.findViewById(R.id.txtFriendName);
-            txtFriendId = itemView.findViewById(R.id.txtFirendId);
+            userImage = itemView.findViewById(R.id.itemUserImage);
             itemView.setOnClickListener(this);
         }
 
