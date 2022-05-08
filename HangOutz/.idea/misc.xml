@@ -44,6 +44,15 @@
         <entry key="app/src/main/res/layout-land/friend_clicked_dialog.xml" value="0.42792792792792794" />
         <entry key="app/src/main/res/layout-land/friend_item.xml" value="0.42792792792792794" />
         <entry key="app/src/main/res/layout-land/user_clicked_dialog.xml" value="0.42792792792792794" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_friends_add.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_friends_list.xml" value="0.15347137451171874" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_login.xml" value="0.146875" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_main.xml" value="0.146875" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_manage_account.xml" value="0.146875" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_register_user.xml" value="0.146875" />
+        <entry key="app/src/main/res/layout-sw600dp/fragment_maps.xml" value="0.146875" />
+        <entry key="app/src/main/res/layout-sw600dp/friend_item.xml" value="0.35136260986328127" />
+        <entry key="app/src/main/res/layout-sw600dp/user_clicked_dialog.xml" value="0.146875" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_authentication.xml" value="0.35052083333333334" />
