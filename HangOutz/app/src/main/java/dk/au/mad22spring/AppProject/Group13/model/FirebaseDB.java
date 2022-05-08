@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class FirebaseDB {
     private static final String TAG = "FireBaseDB TAG";
@@ -155,7 +156,7 @@ public class FirebaseDB {
                     ArrayList<User> myList = new ArrayList<>();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         User user = dataSnapshot.getValue(User.class);
-                        if(user.id.contains(searchStr)) {
+                        if(user.name.toLowerCase().contains(searchStr.toLowerCase())) {
                             myList.add(user);
                         }
                         userList.setValue(myList);
