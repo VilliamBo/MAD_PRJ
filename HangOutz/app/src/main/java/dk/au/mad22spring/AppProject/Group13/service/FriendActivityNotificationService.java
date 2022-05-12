@@ -1,3 +1,5 @@
+// Inspired from SWMAD lecture 5 (Services and Asynch Processing)
+
 package dk.au.mad22spring.AppProject.Group13.service;
 
 import android.app.Notification;

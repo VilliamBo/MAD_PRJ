@@ -81,17 +81,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if(viewModel.getLoggedInUserId() == null)
+        {
+            goToLoginScreen();
+        }
+
         setupMap(savedInstanceState);
         setupUI();
         setupLocationHandler();
         startNotificationService();
         viewModel.getLocalUser(); // Request current user
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //updateMap(viewModel.getFriendList().getValue()); // added, but didn't work
     }
 
     private void setupMap(Bundle savedInstanceState) {
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(Location location) {
                         lastKnownLocation = location;
                         if (location == null) {
-                            Toast.makeText(fusedLocationClient.getApplicationContext(), R.string.noLocationFoundToast, Toast.LENGTH_SHORT).show();
+                            //$Toast.makeText(fusedLocationClient.getApplicationContext(), R.string.noLocationFoundToast, Toast.LENGTH_SHORT).show();
                             noLocation = true;
                         }
                     }

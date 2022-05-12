@@ -125,6 +125,10 @@ public class Repository {
         loggedInUSerID = uid;
     }
 
+    public String getLoggedInUSerID(){
+        return loggedInUSerID;
+    }
+
     public void setActivity(String activity) {
         db.setActivity(loggedInUSerID, activity);
     }

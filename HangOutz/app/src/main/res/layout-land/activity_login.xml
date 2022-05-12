@@ -109,29 +109,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginEmailInput" />
 
-    <ImageView
-        android:id="@+id/loginFBView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="15dp"
-        android:src="@drawable/login_facebook"
-        app:layout_constraintBottom_toBottomOf="@+id/loginFBTxt"
-        app:layout_constraintStart_toEndOf="@+id/loginFBTxt"
-        app:layout_constraintTop_toTopOf="@+id/loginFBTxt" />
-
-    <TextView
-        android:id="@+id/loginFBTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:gravity="center"
-        android:text="@string/loginFBTxt"
-        android:textColor="@color/white"
-        android:textSize="18dp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="@+id/loginCreateUserBtn"
-        app:layout_constraintStart_toEndOf="@+id/loginCreateUserBtn"
-        app:layout_constraintTop_toTopOf="@+id/loginCreateUserBtn" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,5 @@
+// Authentication inspired from: https://learntodroid.com/how-to-use-firebase-authentication-in-an-android-app-using-mvvm/
+
 package dk.au.mad22spring.AppProject.Group13.model;
 
 

@@ -64,20 +64,10 @@ public class FriendsListAdaptor extends RecyclerView.Adapter<FriendsListAdaptor.
     @Override
     public void onBindViewHolder(@NonNull FriendsListAdaptor.ViewHolder holder, int position) {
 
-        //checking for available image, else insert default image
-        /*
-        if((firends.get(position).getStrDrinkThumb() != null) && (!drinks.get(position).getStrDrinkThumb().equals("null")))
-        {
-            Glide.with(holder.imgDrink.getContext()).load(drinks.get(position).getStrDrinkThumb()).into(holder.imgDrink);
-        }
-        else
-        {
-            Log.d(TAG, "onBindViewHolder: no image, using default image instead");
-            holder.imgDrink.setImageResource(R.raw.xtrawater);
-        }
-        */
         User user = friends.get(position);
         holder.txtFriendName.setText(user.name);
+
+        // Inspired from SWMAD lecture 6 (Networks and Communication)
         Glide.with(holder.userImage.getContext()).load(user.imgUrl).into(holder.userImage);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {

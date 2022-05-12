@@ -1,3 +1,5 @@
+// Inspired from SWMAD lecture 9 (Sensors, Location and Maps)
+
 package dk.au.mad22spring.AppProject.Group13;
 
 import androidx.annotation.NonNull;

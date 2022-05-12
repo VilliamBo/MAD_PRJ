@@ -57,6 +57,9 @@ public class RegisterUserActivity extends AppCompatActivity {
         });
 
         viewModel.getImgURL().observe(this, new Observer<String>() {
+
+            //Inspired from SWMAD lecture 6 (Networks and Communication)
+
             @Override
             public void onChanged(String json) {
                 if(json != null) {

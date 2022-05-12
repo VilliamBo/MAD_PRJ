@@ -158,6 +158,10 @@ public class mainViewModel extends AndroidViewModel {
         repository.getLocalUser(localUserLiveData);
     }
 
+    public String getLoggedInUserId(){
+        return repository.getLoggedInUSerID();
+    }
+
     //Links Friend id list to friend.child(userid). if it updates
     private void linkFriendIdListToDatabase(){
         repository.getFriendsId(getFriendIdList());

@@ -1,3 +1,5 @@
+// Inspired from SWMAD lecture 6 (Networks and Communication)
+
 package dk.au.mad22spring.AppProject.Group13.model;
 
 import android.content.Context;
